@@ -1,4 +1,554 @@
-<!DOCTYPE html>
+<div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/18.Ad_select_installation.gif" alt="AD DS rolu seçilir">
+                    <div class="animation-tooltip">Server Roles siyahısından Active Directory Domain Services seçilir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        /* Style for AD objects in simulator */
+        .scenario-container {
+            padding: 20px;
+            height: 100%;
+            position: relative;
+        }
+        
+        .scenario-title {
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .ad-object {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            position: relative;
+            min-width: 120px;
+            z-index: 2;
+        }
+        
+        .ad-object:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .ad-object.selected {
+            outline: 2px solid var(--primary-color);
+        }
+        
+        .object-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .object-label {
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .ad-user .object-icon {
+            color: #0078d7;
+        }
+        
+        .ad-group .object-icon {
+            color: #107c10;
+        }
+        
+        .ad-computer .object-icon {
+            color: #5c2d91;
+        }
+        
+        .ad-ou .object-icon {
+            color: #ff8c00;
+        }
+        
+        .ad-gpo .object-icon {
+            color: #e81123;
+        }
+        
+        .ad-dc .object-icon {
+            color: #00b7c3;
+        }
+        
+        .object-children {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+            width: 100%;
+        }
+        
+        /* Replication diagram */
+        .replication-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .replication-arrow {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            background: #1e1e1e;
+            color: #f5f5f5;
+        }
+        
+        body.dark-mode .section,
+        body.dark-mode .animation-container,
+        body.dark-mode .step,
+        body.dark-mode .summary-card,
+        body.dark-mode .benefit-card,
+        body.dark-mode .interactive-demo,
+        body.dark-mode .node-info,
+        body.dark-mode .flip-back {
+            background: #333;
+            color: #f5f5f5;
+        }
+        
+        body.dark-mode .progress-tracker {
+            background: #111;
+        }
+        
+        body.dark-mode h1,
+        body.dark-mode h2,
+        body.dark-mode h3,
+        body.dark-mode .step-title {
+            color: #0078d7;
+        }
+        
+        body.dark-mode .step {
+            border-left-color: #0078d7;
+            background: #2a2a2a;
+        }
+        
+        body.dark-mode .animation-container {
+            border-color: #555;
+        }
+        
+        body.dark-mode .animation-tooltip {
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        body.dark-mode .dark-mode-toggle {
+            background: #0078d7;
+        }
+        
+        body.dark-mode .dark-mode-toggle i {
+            color: white;
+        }
+        
+        body.dark-mode footer {
+            background: #111;
+        }
+        
+        body.dark-mode .tip {
+            background: rgba(255, 185, 0, 0.05);
+        }
+        
+        body.dark-mode .warning {
+            background: rgba(243, 156, 18, 0.05);
+        }
+        
+        body.dark-mode .success {
+            background: rgba(0, 184, 148, 0.05);
+        }
+        
+        body.dark-mode .diagram-node {
+            background: #444;
+            color: #f5f5f5;
+        }
+        
+        body.dark-mode .diagram-node.active {
+            background: var(--primary-color);
+        }
+        
+        body.dark-mode .flip-front {
+            background: linear-gradient(135deg, #0e4e7e 0%, #08365e 100%);
+        }
+        
+        /* Checkbox styles */
+        .checklist-item input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            margin-right: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .checklist-item input[type="checkbox"]:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .checklist-item input[type="checkbox"]:checked::after {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 12px;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+            <script>
+        // Progress bar functionality
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressFill").style.width = scrolled + "%";
+            
+            // Scroll to top button visibility
+            if (winScroll > 300) {
+                document.getElementById('scrollTop').classList.add('visible');
+            } else {
+                document.getElementById('scrollTop').classList.remove('visible');
+            }
+        });
+        
+        // Scroll to top functionality
+        document.getElementById('scrollTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Fade-in animation for sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Zoom functionality for animations
+            const zoomButtons = document.querySelectorAll('.zoom-btn');
+            zoomButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const container = this.closest('.animation-container');
+                    const img = container.querySelector('img');
+                    
+                    if (this.classList.contains('zoom-in')) {
+                        img.style.width = (parseInt(getComputedStyle(img).width) * 1.2) + 'px';
+                    } else if (this.classList.contains('zoom-out')) {
+                        img.style.width = (parseInt(getComputedStyle(img).width) / 1.2) + 'px';
+                    } else if (this.classList.contains('zoom-reset')) {
+                        img.style.width = '100%';
+                    }
+                });
+            });
+            
+            // Dark mode toggle
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', function() {
+                    document.body.classList.toggle('dark-mode');
+                    const icon = this.querySelector('i');
+                    if (icon.classList.contains('fa-moon')) {
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                    } else {
+                        icon.classList.remove('fa-sun');
+                        icon.classList.add('fa-moon');
+                    }
+                });
+            }
+        });
+    </script> event to show properties
+                    newObject.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        showProperties(newObject);
+                    });
+                    
+                    // Add log entry
+                    addLogEntry('success', `Yeni ${defaultName} yaradıldı`);
+                });
+                
+                // Property panel functionality
+                function showProperties(element) {
+                    propertyPanel.style.display = 'block';
+                    propertyPlaceholder.style.display = 'none';
+                    
+                    // Fill in current values
+                    document.getElementById('propName').value = element.querySelector('.object-label').textContent;
+                    document.getElementById('propDescription').value = element.dataset.description || '';
+                    document.getElementById('propPath').value = getObjectPath(element);
+                    
+                    // Apply button functionality
+                    document.getElementById('applyProperties').onclick = function() {
+                        const newName = document.getElementById('propName').value;
+                        const newDescription = document.getElementById('propDescription').value;
+                        
+                        element.querySelector('.object-label').textContent = newName;
+                        element.dataset.description = newDescription;
+                        
+                        addLogEntry('info', `"${newName}" xüsusiyyətləri yeniləndi`);
+                    };
+                }
+                
+                // Get object path for display
+                function getObjectPath(element) {
+                    const type = element.dataset.type;
+                    const name = element.querySelector('.object-label').textContent;
+                    
+                    switch (type) {
+                        case 'user':
+                            return `CN=${name},OU=İstifadəçilər,DC=domain,DC=local`;
+                        case 'group':
+                            return `CN=${name},OU=Qruplar,DC=domain,DC=local`;
+                        case 'computer':
+                            return `CN=${name},OU=Kompüterlər,DC=domain,DC=local`;
+                        case 'ou':
+                            return `OU=${name},DC=domain,DC=local`;
+                        case 'gpo':
+                            return `CN=${name},CN=Policies,CN=System,DC=domain,DC=local`;
+                        default:
+                            return '';
+                    }
+                }
+                
+                // Hide properties when clicking on canvas
+                canvas.addEventListener('click', function(e) {
+                    if (e.target === canvas) {
+                        propertyPanel.style.display = 'none';
+                        propertyPlaceholder.style.display = 'block';
+                    }
+                });
+            }
+            
+            // Copy button functionality for code snippets
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const codeElement = this.closest('.code-snippet').querySelector('code');
+                    const textToCopy = codeElement.textContent;
+                    
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        // Show success feedback
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i> Kopyalandı!';
+                        
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    });
+                });
+            });
+        });
+    </script>        /* Simulator styles */
+        .simulator-container {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        
+        .simulator-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .scenario-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-control {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        .simulator-workspace {
+            display: flex;
+            height: 400px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .workspace-sidebar {
+            width: 180px;
+            background: #f5f5f5;
+            border-right: 1px solid #eee;
+            padding: 15px;
+        }
+        
+        .tool-palette {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .tool-item {
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            cursor: move;
+            transition: all 0.2s;
+        }
+        
+        .tool-item:hover {
+            background: var(--light-bg);
+            transform: translateX(3px);
+        }
+        
+        .workspace-canvas {
+            flex: 1;
+            padding: 20px;
+            position: relative;
+            background: white;
+            overflow: auto;
+        }
+        
+        .canvas-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #aaa;
+            text-align: center;
+        }
+        
+        .canvas-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .workspace-properties {
+            width: 220px;
+            background: #f5f5f5;
+            border-left: 1px solid #eee;
+            padding: 15px;
+        }
+        
+        .workspace-properties h4 {
+            margin: 0 0 15px 0;
+            color: var(--primary-color);
+        }
+        
+        .property-placeholder {
+            color: #aaa;
+            font-style: italic;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .simulator-logs {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .logs-header {
+            padding: 10px 15px;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logs-header h4 {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+        }
+        
+        .logs-content {
+            padding: 10px 15px;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+        
+        .log-entry {
+            margin-bottom: 5px;
+        }
+        
+        .log-time {
+            color: #777;
+        }
+        
+        .log-type {
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-right: 5px;
+            font-size: 0.75rem;
+        }
+        
+        .log-type.info {
+            background: rgba(0, 120, 215, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .log-type.warning {
+            background: rgba(255, 185, 0, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .log-type.error {
+            background: rgba(232, 17, 35, 0.1);
+            color: #e81123;
+        }
+        
+        .log-type.success {
+            background: rgba(16, 124, 16, 0.1);
+            color: #107c10;
+        }        /* Card container */
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        /* Node info styles */
+        .node-info {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+        <!DOCTYPE html>
 <html lang="az">
 <head>
     <meta charset="UTF-8">
@@ -186,17 +736,53 @@
             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
             margin: 20px 0;
             background: #f9f9f9;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .animation-container img {
             width: 100%;
-            height: auto;
+            max-height: 350px;
             display: block;
             transition: transform 0.3s ease;
+            object-fit: contain;
         }
         
         .animation-container:hover img {
             transform: scale(1.02);
+        }
+        
+        /* Zoom control for animations */
+        .animation-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+            padding: 5px 10px;
+            display: flex;
+            gap: 10px;
+            z-index: 5;
+        }
+        
+        .zoom-btn {
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+        
+        .zoom-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
         
         .tip {
@@ -262,6 +848,308 @@
             border-radius: 5px;
             width: 0%;
             transition: width 0.5s ease;
+        }
+        
+        /* Floating Tools Panel */
+        .floating-panel {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 350px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .floating-panel.collapsed .panel-content {
+            display: none;
+        }
+        
+        .floating-panel.collapsed .panel-toggle i {
+            transform: rotate(180deg);
+        }
+        
+        .panel-header {
+            padding: 15px;
+            background: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+        }
+        
+        .panel-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .panel-toggle i {
+            transition: transform 0.3s;
+        }
+        
+        .panel-content {
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 0;
+        }
+        
+        .panel-section {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .panel-section:last-child {
+            border-bottom: none;
+        }
+        
+        .panel-section h4 {
+            margin: 0 0 15px 0;
+            font-size: 1rem;
+            color: var(--primary-color);
+        }
+        
+        /* Calculator styles */
+        .calc-form {
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 10px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary-color);
+        }
+        
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+        
+        .calculation-result {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        /* Checklist styles */
+        .checklist {
+            margin-bottom: 10px;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        
+        /* Code snippet styles */
+        .code-snippet {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .code-snippet pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+        
+        .code-snippet code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        /* Dark mode toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            background: var(--dark-bg);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 99;
+            transition: var(--transition);
+        }
+        
+        .dark-mode-toggle:hover {
+            transform: rotate(30deg);
+        }
+        
+        /* Interactive elements */
+        .interactive-demo {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+        }
+        
+        .demo-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .server-diagram {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .diagram-node {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .diagram-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .diagram-node.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .diagram-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .diagram-label {
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        
+        .diagram-connection {
+            position: absolute;
+            background: #ddd;
+            z-index: -1;
+            transition: background 0.3s;
+        }
+        
+        .diagram-connection.active {
+            background: var(--accent-color);
+        }
+        
+        /* 3D Flip cards */
+        .flip-container {
+            perspective: 1000px;
+            width: 300px;
+            height: 200px;
+            margin: 20px auto;
+        }
+        
+        .flipper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .flip-container:hover .flipper {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-front, .flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .flip-front {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            z-index: 2;
+        }
+        
+        .flip-back {
+            background: white;
+            color: var(--text-color);
+            transform: rotateY(180deg);
+            box-shadow: var(--shadow);
         }
         
         .scroll-top {
@@ -447,9 +1335,14 @@
                     Windows Server 2016 Quraşdırılmasının Başladılması
                 </div>
                 <p class="step-description">Windows Server 2016 quraşdırma diskini daxil edin və ya ISO faylından boot edin. Setup ekranı göründükdə quraşdırmaya başlayın.</p>
-                <div class="animation-container">
+            <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/1.Animation.gif" alt="Windows Server quraşdırma prosesinin başlanğıcı">
                     <div class="animation-tooltip">Quraşdırma ekranı yüklənir və sistem hazırlıq vəziyyətindədir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="tip">
                     <i class="fas fa-lightbulb icon"></i> İpucu: Quraşdırmadan əvvəl serverinizin sistem tələblərini yoxlayın. Windows Server 2016 üçün minimum 1.4 GHz prosessor, 512 MB RAM və 32 GB disk sahəsi tələb olunur.
@@ -465,6 +1358,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/2.language.gif" alt="Dil və bölgə seçimləri">
                     <div class="animation-tooltip">Dil və region parametrləri seçilir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="tip">
                     <i class="fas fa-lightbulb icon"></i> İpucu: Server administratorlarının əksəriyyəti, beynəlxalq standartlara uyğunluq üçün ingilis dilini seçir, lakin sizin mühitinizə uyğun dili seçə bilərsiniz.
@@ -480,6 +1378,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/3.custom.gif" alt="Custom quraşdırma seçilir">
                     <div class="animation-tooltip">Xüsusi quraşdırma növü seçilir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="warning">
                     <i class="fas fa-exclamation-triangle icon"></i> Diqqət: "Custom" seçimi mövcud verilənləri silə bilər. Əgər mövcud sistem üzərində quraşdırma aparırsınızsa, əvvəlcədən vacib məlumatlarınızı yedəkləyin.
@@ -495,6 +1398,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/4.Desktop Experience.gif" alt="Desktop Experience versiya seçimi">
                     <div class="animation-tooltip">Desktop Experience ilə Windows Server versiyası seçilir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="tip">
                     <i class="fas fa-lightbulb icon"></i> İpucu: "Desktop Experience" yeni başlayanlar üçün daha rahat olsa da, "Core" versiyası daha az sistem resursu istifadə edir və təhlükəsizlik baxımından daha yaxşıdır.
@@ -510,6 +1418,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/5.installing.gif" alt="Quraşdırma prosesi">
                     <div class="animation-tooltip">Windows Server faylları və komponentləri quraşdırılır</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="tip">
                     <i class="fas fa-lightbulb icon"></i> İpucu: Quraşdırma prosesi server avadanlığınızın gücündən asılı olaraq 20-45 dəqiqə arası çəkə bilər. Bu müddət ərzində serverə müdaxilə etməyin.
@@ -525,6 +1438,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/6.restartred.gif" alt="Sistemin yenidən başladılması">
                     <div class="animation-tooltip">Windows Server quraşdırma tamamlandıqdan sonra yenidən başladılır</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
             </div>
 
@@ -537,6 +1455,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/7.Administator Password.gif" alt="Administrator parolu təyin edilir">
                     <div class="animation-tooltip">Administrator hesabı üçün güclü parol təyin edilir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="warning">
                     <i class="fas fa-exclamation-triangle icon"></i> Diqqət: Mütləq mürəkkəb və təhlükəsiz bir parol seçin (ən az 8 simvol, böyük və kiçik hərflər, rəqəmlər və xüsusi simvollar daxil olmaqla). Bu parolu təhlükəsiz bir yerdə saxlayın, çünki onu itirdikdə serveri bərpa etmək çətin ola bilər.
@@ -552,6 +1475,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/8.login.gif" alt="İlk giriş">
                     <div class="animation-tooltip">Administrator hesabı ilə ilk giriş</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="tip">
                     <i class="fas fa-lightbulb icon"></i> İpucu: İlk giriş digər girişlərə nisbətən daha çox vaxt ala bilər, çünki Windows istifadəçi profili parametrlərini konfiqurasiya edir.
@@ -567,6 +1495,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/9.installed .gif" alt="Quraşdırma tamamlandı">
                     <div class="animation-tooltip">Windows Server quraşdırılması tamamlanıb və Server Manager açılıb</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="success">
                     <i class="fas fa-check-circle icon"></i> Təbrik edirik! Windows Server 2016 uğurla quraşdırıldı. İndi növbəti addımlara keçə bilərsiniz.
@@ -588,6 +1521,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/10.changehostname.gif" alt="Host adının dəyişdirilməsi">
                     <div class="animation-tooltip">Kompüter adı "ADSERVER" olaraq dəyişdirilir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="tip">
                     <i class="fas fa-lightbulb icon"></i> İpucu: Host adını təşkilatınızın adlandırma konvensiyasına uyğun seçin. Məsələn, "DC01" və ya "ADSERVER" kimi adlar domen kontrolleri üçün uyğundur. Adda boşluqlar və xüsusi simvollar istifadə etməkdən çəkinin.
@@ -603,6 +1541,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/11.disablefirewall.gif" alt="Firewall-un söndürülməsi">
                     <div class="animation-tooltip">Windows Firewall bütün şəbəkə profilləri üçün söndürülür</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="warning">
                     <i class="fas fa-exclamation-triangle icon"></i> Diqqət: İstehsal mühitində firewall-u tamamilə söndürmək təhlükəsizlik riski yaradır. Əvəzinə, sadəcə lazım olan portları (Active Directory portları: 389, 445, 88, 53, 135, 3268, 3269, vb.) açın.
@@ -618,6 +1561,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/12.enablerdp.gif" alt="RDP aktivləşdirilir">
                     <div class="animation-tooltip">Remote Desktop Connection xidməti aktivləşdirilir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="tip">
                     <i class="fas fa-lightbulb icon"></i> İpucu: Təhlükəsizliyi artırmaq üçün uzaqdan girişi yalnız administrator qrupuna məhdudlaşdırın və mümkünsə şəbəkə səviyyəsində əlavə təhlükəsizlik tədbirləri tətbiq edin.
@@ -633,6 +1581,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/13.showip.gif" alt="IP ünvanına baxış">
                     <div class="animation-tooltip">ipconfig əmri ilə mövcud şəbəkə məlumatlarını göstərir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="tip">
                     <i class="fas fa-lightbulb icon"></i> İpucu: "ipconfig /all" əmri daha ətraflı məlumat əldə etməyə imkan verir. Bu əmrlə MAC ünvanı, DNS server ünvanları və digər şəbəkə konfiqurasiyalarını görə bilərsiniz.
@@ -648,6 +1601,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/14.statik_ip.gif" alt="Statik IP təyin edilir">
                     <div class="animation-tooltip">Şəbəkə adapterin xüsusiyyətlərində statik IP konfiqurasiyası edilir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="warning">
                     <i class="fas fa-exclamation-triangle icon"></i> Diqqət: Statik IP ünvanını təyin edərkən şəbəkə administratoru ilə məsləhətləşin. Təkrarlanan IP ünvanları şəbəkə konfliktinə səbəb ola bilər. DNS server kimi eyni server IP ünvanını göstərin.
@@ -663,6 +1621,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/15.change_timezone.gif" alt="Vaxt qurşağının dəyişdirilməsi">
                     <div class="animation-tooltip">Sistem vaxt qurşağı düzgün bölgə ilə sinxronlaşdırılır</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="tip">
                     <i class="fas fa-lightbulb icon"></i> İpucu: Active Directory mühitlərində bütün komputerlərin vaxtı domen kontrolleri ilə avtomatik sinxronlaşdırılır. Domen kontrollerinin vaxtı isə bir xarici NTP serverlə sinxronlaşdırıla bilər.
@@ -678,6 +1641,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/16.restart_for_apply.gif" alt="Dəyişikliklər üçün restart">
                     <div class="animation-tooltip">Server yenidən başladılır ki dəyişikliklər tam tətbiq olunsun</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="tip">
                     <i class="fas fa-lightbulb icon"></i> İpucu: Server yenidən başladılmadan əvvəl bütün vacib əməliyyatları saxladığınızdan və ya bitirdiyinizdən əmin olun. Planlaşdırılmamış yenidən başlatmalar data itkisinə səbəb ola bilər.
@@ -703,6 +1671,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/17.add_roles+features.gif" alt="Rollar və xüsusiyyətlər əlavə edilir">
                     <div class="animation-tooltip">Server Manager-dən "Add Roles and Features" sehrbazı başladılır</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="tip">
                     <i class="fas fa-lightbulb icon"></i> İpucu: Server rolu əlavə etmədən əvvəl, serverinizin bütün yeniləmələrinin quraşdırıldığından və sistem stabilliyinin yoxlanıldığından əmin olun.
@@ -718,6 +1691,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/18.Ad_select_installation.gif" alt="AD DS rolu seçilir">
                     <div class="animation-tooltip">Server Roles siyahısından Active Directory Domain Services seçilir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="tip">
                     <i class="fas fa-lightbulb icon"></i> İpucu: Active Directory ilə birlikdə DNS Server rolu da quraşdırılmalıdır. Əgər avtomatik əlavə edilmirsə, əl ilə DNS Server rolunu da seçin.
@@ -733,6 +1711,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/19.write_domain.gif" alt="Domen adı yazılır">
                     <div class="animation-tooltip">Yeni domen adı kimi "domain.local" daxil edilir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="warning">
                     <i class="fas fa-exclamation-triangle icon"></i> Diqqət: Domen adını diqqətlə seçin, çünki bu, qurulduqdan sonra dəyişdirilməsi çətin olan bir parametrdir. İnternet ilə əlaqəli domenlər üçün rəsmi domen adları (.com, .org, vb.) istifadə edin, daxili şəbəkələr üçün isə .local kimi qeyri-rəsmi domain adları istifadə etmək olar.
@@ -748,6 +1731,11 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/20.write_password.gif" alt="Directory Services üçün parol təyin edilir">
                     <div class="animation-tooltip">DSRM (Directory Services Restore Mode) parolu təyin edilir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="warning">
                     <i class="fas fa-exclamation-triangle icon"></i> Diqqət: DSRM parolunu unutmayın və təhlükəsiz bir yerdə saxlayın. Bu parol, Active Directory məlumat bazasının zədələnməsi və ya digər kritik problemlər zamanı bərpa üçün lazım olacaq.
@@ -836,9 +1824,150 @@
         </div>
     </footer>
 
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
     <div class="scroll-top" id="scrollTop">
         <i class="fas fa-arrow-up"></i>
     </div>
+
+        <div class="interactive-demo fade-in">
+            <h2 class="demo-title"><i class="fas fa-project-diagram"></i> Active Directory Strukturu İnteraktiv Diaqramı</h2>
+            <p>Aşağıdakı interaktiv diaqramda tipik bir Active Directory domen strukturu göstərilmişdir. Elementlərin üzərinə klikləyərək əlavə məlumat əldə edə bilərsiniz.</p>
+            
+            <div class="server-diagram" id="adDiagram">
+                <div class="diagram-node" data-node="dc" onclick="activateNode('dc')">
+                    <div class="diagram-icon"><i class="fas fa-server"></i></div>
+                    <div class="diagram-label">Domen Kontrolleri</div>
+                </div>
+                <div class="diagram-node" data-node="users" onclick="activateNode('users')">
+                    <div class="diagram-icon"><i class="fas fa-users"></i></div>
+                    <div class="diagram-label">İstifadəçilər</div>
+                </div>
+                <div class="diagram-node" data-node="computers" onclick="activateNode('computers')">
+                    <div class="diagram-icon"><i class="fas fa-desktop"></i></div>
+                    <div class="diagram-label">Kompüterlər</div>
+                </div>
+                <div class="diagram-node" data-node="groups" onclick="activateNode('groups')">
+                    <div class="diagram-icon"><i class="fas fa-user-friends"></i></div>
+                    <div class="diagram-label">Qruplar</div>
+                </div>
+                <div class="diagram-node" data-node="gpo" onclick="activateNode('gpo')">
+                    <div class="diagram-icon"><i class="fas fa-cogs"></i></div>
+                    <div class="diagram-label">Qrup Siyasətləri</div>
+                </div>
+                <div class="diagram-node" data-node="ou" onclick="activateNode('ou')">
+                    <div class="diagram-icon"><i class="fas fa-folder"></i></div>
+                    <div class="diagram-label">Təşkilati Vahidlər</div>
+                </div>
+            </div>
+            
+            <div id="nodeInfo" class="node-info">
+                <h3 id="nodeTitle">Elementə klikləyin</h3>
+                <p id="nodeDescription">Diaqramda bir elementə klikləyərək Active Directory strukturu haqda məlumat əldə edin.</p>
+            </div>
+        </div>
+
+        <div class="section fade-in">
+            <h2><i class="fas fa-lightbulb"></i> Active Directory Funksiyaları - İnteraktiv Bilgi Kartları</h2>
+            <p>Məlumat kartlarını fırladaraq (üzərində mouse ilə gəzdirərək) Active Directory-nin əsas funksiyaları haqqında daha çox bilgi əldə edin.</p>
+            
+            <div class="cards-container">
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="flip-front">
+                            <i class="fas fa-user-shield fa-3x"></i>
+                            <h3>Mərkəzi Autentifikasiya</h3>
+                        </div>
+                        <div class="flip-back">
+                            <h3>Single Sign-On</h3>
+                            <p>İstifadəçilər şəbəkəyə bir dəfə daxil olmaqla bütün icazə verilmiş resurslara çata bilərlər. Bu, təhlükəsizliyi artırır və parolu idarə etməni asanlaşdırır.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="flip-front">
+                            <i class="fas fa-shield-alt fa-3x"></i>
+                            <h3>Təhlükəsizlik Siyasətləri</h3>
+                        </div>
+                        <div class="flip-back">
+                            <h3>Group Policy Obyektləri</h3>
+                            <p>Mərkəzləşdirilmiş təhlükəsizlik siyasətləri ilə bütün hesablar və cihazlar üzərində avtomatik nəzarət. Parol mürəkkəbliyi, hesab kilidləmə və digər təhlükəsizlik parametrləri.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="flip-front">
+                            <i class="fas fa-sitemap fa-3x"></i>
+                            <h3>Hierarxik Struktur</h3>
+                        </div>
+                        <div class="flip-back">
+                            <h3>Təşkilati Vahidlər (OUs)</h3>
+                            <p>Obyektlərin məntiqi qruplaşdırılması şirkətin strukturunu əks etdirərək idarəetməni asanlaşdırır. Departamentlər, lokasiyalar və ya funksiyalara görə qruplaşdırma.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section fade-in">
+            <h2><i class="fas fa-chart-network"></i> Active Directory Ssenariləri</h2>
+            <p>Active Directory, şəbəkə resurslarını idarə etmək və təşkilati strukturları yaratmaq üçün güclü bir vasitədir. Aşağıda ən çox istifadə edilən ssenarilərdən bir neçəsi verilmişdir.</p>
+            
+            <div class="cards-container">
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="flip-front">
+                            <i class="fas fa-building fa-3x"></i>
+                            <h3>Şirkət Strukturu</h3>
+                        </div>
+                        <div class="flip-back">
+                            <h3>Departament Əsaslı OU Təşkilatı</h3>
+                            <p>Təşkilati vahidləri departamentlərə görə təşkil etmək (məsələn, İnsan Resursları, İT, Satış) ən çox istifadə edilən yanaşmadır. Hər bir departament öz GPO və təhlükəsizlik siyasətlərinə malik ola bilər.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="flip-front">
+                            <i class="fas fa-globe-europe fa-3x"></i>
+                            <h3>Coğrafi Yerləşim</h3>
+                        </div>
+                        <div class="flip-back">
+                            <h3>Lokasiya Əsaslı OU Təşkilatı</h3>
+                            <p>Müxtəlif coğrafi yerlərdə fəaliyyət göstərən şirkətlər üçün, OU-lar ofis yerləşimlərinə görə təşkil edilə bilər (məsələn, Bakı, London, New York). Bu, yerli siyasətlərin və tənzimləmələrin tətbiq edilməsini asanlaşdırır.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="flip-front">
+                            <i class="fas fa-users-cog fa-3x"></i>
+                            <h3>Resurs Paylaşımı</h3>
+                        </div>
+                        <div class="flip-back">
+                            <h3>Qruplar Vasitəsilə İcazə İdarəetməsi</h3>
+                            <p>Qruplardan istifadə edərək fayl paylaşım və tətbiq icazələrini daha effektiv şəkildə idarə etmək. Rollar əsasında qrup yerləşdirmələri ilə işçilər daxil olduqda avtomatik olaraq doğru resurslara çata bilərlər.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dark-mode-toggle" id="darkModeToggle">
+            <i class="fas fa-moon"></i>
+        </div>
+
+        <div class="scroll-top" id="scrollTop">
+            <i class="fas fa-arrow-up"></i>
+        </div>
 
     <script>
         // Progress bar functionality
