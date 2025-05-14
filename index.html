@@ -105,20 +105,27 @@
         body.dark-mode .step,
         body.dark-mode .summary-card,
         body.dark-mode .benefit-card,
+        body.dark-mode .interactive-demo,
         body.dark-mode .node-info,
-        body.dark-mode .simulator-container {
+        body.dark-mode .flip-back {
             background: #333;
             color: #f5f5f5;
         }
         
+        body.dark-mode .progress-tracker {
+            background: #111;
+        }
+        
         body.dark-mode h1,
         body.dark-mode h2,
-        body.dark-mode h3 {
+        body.dark-mode h3,
+        body.dark-mode .step-title {
             color: #0078d7;
         }
         
         body.dark-mode .step {
             border-left-color: #0078d7;
+            background: #2a2a2a;
         }
         
         body.dark-mode .animation-container {
@@ -135,6 +142,35 @@
         
         body.dark-mode .dark-mode-toggle i {
             color: white;
+        }
+        
+        body.dark-mode footer {
+            background: #111;
+        }
+        
+        body.dark-mode .tip {
+            background: rgba(255, 185, 0, 0.05);
+        }
+        
+        body.dark-mode .warning {
+            background: rgba(243, 156, 18, 0.05);
+        }
+        
+        body.dark-mode .success {
+            background: rgba(0, 184, 148, 0.05);
+        }
+        
+        body.dark-mode .diagram-node {
+            background: #444;
+            color: #f5f5f5;
+        }
+        
+        body.dark-mode .diagram-node.active {
+            background: var(--primary-color);
+        }
+        
+        body.dark-mode .flip-front {
+            background: linear-gradient(135deg, #0e4e7e 0%, #08365e 100%);
         }
         
         /* Checkbox styles */
@@ -228,68 +264,6 @@
                 });
             });
             
-            // Floating panel toggle and drag functionality
-            const panelToggle = document.querySelector('.panel-toggle');
-            const floatingPanel = document.getElementById('toolsPanel');
-            const panelHeader = document.querySelector('.panel-header');
-            
-            if (panelToggle) {
-                panelToggle.addEventListener('click', function() {
-                    floatingPanel.classList.toggle('collapsed');
-                    this.querySelector('i').classList.toggle('fa-chevron-up');
-                    this.querySelector('i').classList.toggle('fa-chevron-down');
-                });
-            }
-            
-            // Make panel draggable
-            if (panelHeader && floatingPanel) {
-                let isDragging = false;
-                let offsetX, offsetY;
-                
-                panelHeader.addEventListener('mousedown', function(e) {
-                    isDragging = true;
-                    offsetX = e.clientX - floatingPanel.getBoundingClientRect().left;
-                    offsetY = e.clientY - floatingPanel.getBoundingClientRect().top;
-                });
-                
-                document.addEventListener('mousemove', function(e) {
-                    if (isDragging) {
-                        floatingPanel.style.left = (e.clientX - offsetX) + 'px';
-                        floatingPanel.style.top = (e.clientY - offsetY) + 'px';
-                    }
-                });
-                
-                document.addEventListener('mouseup', function() {
-                    isDragging = false;
-                });
-            }
-            
-            // Calculator functionality
-            const calculateBtn = document.getElementById('calculateBtn');
-            if (calculateBtn) {
-                calculateBtn.addEventListener('click', function() {
-                    const userCount = parseInt(document.getElementById('userCount').value);
-                    const computerCount = parseInt(document.getElementById('computerCount').value);
-                    
-                    let ram = Math.max(4, Math.ceil((userCount + computerCount) / 50) * 2);
-                    let cpu = Math.max(2, Math.ceil((userCount + computerCount) / 100) + 1);
-                    let storage = Math.max(60, 40 + Math.ceil(userCount * 0.1) + Math.ceil(computerCount * 0.05));
-                    
-                    const resultHTML = `
-                        <h5>Tövsiyə olunan konfiqurasiya:</h5>
-                        <ul>
-                            <li><strong>Prosessor:</strong> ${cpu} nüvə, 3.0+ GHz</li>
-                            <li><strong>RAM:</strong> ${ram} GB</li>
-                            <li><strong>Disk sahəsi:</strong> ${storage} GB</li>
-                            <li><strong>Şəbəkə:</strong> 1 Gbps Ethernet</li>
-                        </ul>
-                        <p class="small"><i class="fas fa-info-circle"></i> Böyük mühitlər üçün əlavə resurslar və ya klasteri nəzərdən keçirin.</p>
-                    `;
-                    
-                    document.getElementById('calculationResult').innerHTML = resultHTML;
-                });
-            }
-            
             // Interactive AD Diagram
             const nodeInfo = {
                 'dc': {
@@ -352,200 +326,8 @@
                     }
                 });
             }
-            
-            // Simulator functionality
-            const startSimulation = document.getElementById('startSimulation');
-            if (startSimulation) {
-                startSimulation.addEventListener('click', function() {
-                    const selectedScenario = document.getElementById('scenarioSelect').value;
-                    
-                    // Clear the canvas placeholder
-                    document.querySelector('.canvas-placeholder').style.display = 'none';
-                    
-                    // Add log entry
-                    addLogEntry('info', `"${selectedScenario}" ssenarisi başladıldı`);
-                    
-                    // Create initial diagram based on selected scenario
-                    const canvas = document.getElementById('simulatorCanvas');
-                    
-                    switch (selectedScenario) {
-                        case 'user-creation':
-                            canvas.innerHTML = createUserScenario();
-                            break;
-                        case 'group-policy':
-                            canvas.innerHTML = createGPOScenario();
-                            break;
-                        case 'ou-structure':
-                            canvas.innerHTML = createOUScenario();
-                            break;
-                        case 'replication':
-                            canvas.innerHTML = createReplicationScenario();
-                            break;
-                    }
-                    
-                    // Enable drag and drop for simulator elements
-                    enableDragAndDrop();
-                });
-            }
-            
-            // Simulation logs functionality
-            function addLogEntry(type, message) {
-                const now = new Date();
-                const timeStr = now.getHours().toString().padStart(2, '0') + ':' +
-                                now.getMinutes().toString().padStart(2, '0') + ':' +
-                                now.getSeconds().toString().padStart(2, '0');
-                
-                const logEntry = document.createElement('p');
-                logEntry.className = 'log-entry';
-                logEntry.innerHTML = `<span class="log-time">${timeStr}</span> <span class="log-type ${type}">${type.toUpperCase()}</span> ${message}`;
-                
-                const logsContent = document.getElementById('simulationLogs');
-                logsContent.appendChild(logEntry);
-                logsContent.scrollTop = logsContent.scrollHeight;
-            }
-            
-            // Clear logs button
-            const clearLogs = document.getElementById('clearLogs');
-            if (clearLogs) {
-                clearLogs.addEventListener('click', function() {
-                    document.getElementById('simulationLogs').innerHTML = '';
-                    addLogEntry('info', 'Jurnallar təmizləndi');
-                });
-            }
-            
-            // Scenario templates
-            function createUserScenario() {
-                return `
-                <div class="scenario-container">
-                    <div class="scenario-title">İstifadəçi Yaratma Ssenarisi</div>
-                    <div class="ad-object ad-ou" data-type="ou" id="users-ou">
-                        <div class="object-icon"><i class="fas fa-folder"></i></div>
-                        <div class="object-label">İstifadəçilər OU</div>
-                        <div class="object-children"></div>
-                    </div>
-                </div>`;
-            }
-            
-            function createGPOScenario() {
-                return `
-                <div class="scenario-container">
-                    <div class="scenario-title">Qrup Siyasəti Tətbiqi Ssenarisi</div>
-                    <div class="ad-object ad-ou" data-type="ou" id="domain-ou">
-                        <div class="object-icon"><i class="fas fa-sitemap"></i></div>
-                        <div class="object-label">Domain.local</div>
-                        <div class="object-children">
-                            <div class="ad-object ad-gpo" data-type="gpo" id="default-gpo">
-                                <div class="object-icon"><i class="fas fa-cogs"></i></div>
-                                <div class="object-label">Default Domain Policy</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-            }
-            
-            function createOUScenario() {
-                return `
-                <div class="scenario-container">
-                    <div class="scenario-title">OU Strukturu Planlaşdırma</div>
-                    <div class="ad-object ad-ou" data-type="ou" id="root-ou">
-                        <div class="object-icon"><i class="fas fa-sitemap"></i></div>
-                        <div class="object-label">Domain.local</div>
-                        <div class="object-children"></div>
-                    </div>
-                </div>`;
-            }
-            
-            function createReplicationScenario() {
-                return `
-                <div class="scenario-container">
-                    <div class="scenario-title">Replikasiya Konfiqurasiyası</div>
-                    <div class="replication-diagram">
-                        <div class="ad-object ad-dc" data-type="dc" id="dc1">
-                            <div class="object-icon"><i class="fas fa-server"></i></div>
-                            <div class="object-label">DC1</div>
-                        </div>
-                        <div class="replication-arrow">
-                            <i class="fas fa-sync-alt"></i>
-                        </div>
-                        <div class="ad-object ad-dc" data-type="dc" id="dc2">
-                            <div class="object-icon"><i class="fas fa-server"></i></div>
-                            <div class="object-label">DC2</div>
-                        </div>
-                    </div>
-                </div>`;
-            }
-            
-            // Drag and drop functionality for simulator
-            function enableDragAndDrop() {
-                const toolItems = document.querySelectorAll('.tool-item');
-                const canvas = document.getElementById('simulatorCanvas');
-                const propertyPanel = document.querySelector('.property-panel');
-                const propertyPlaceholder = document.querySelector('.property-placeholder');
-                
-                toolItems.forEach(item => {
-                    item.addEventListener('dragstart', function(e) {
-                        e.dataTransfer.setData('text/plain', item.dataset.tool);
-                    });
-                });
-                
-                canvas.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                });
-                
-                canvas.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    const toolType = e.dataTransfer.getData('text/plain');
-                    
-                    // Create new object
-                    const newObject = document.createElement('div');
-                    newObject.className = `ad-object ad-${toolType}`;
-                    newObject.dataset.type = toolType;
-                    newObject.id = `${toolType}-${Math.floor(Math.random() * 1000)}`;
-                    
-                    // Position at drop location
-                    newObject.style.position = 'absolute';
-                    newObject.style.left = (e.clientX - canvas.getBoundingClientRect().left) + 'px';
-                    newObject.style.top = (e.clientY - canvas.getBoundingClientRect().top) + 'px';
-                    
-                    // Add icon and label
-                    let iconClass = '';
-                    let defaultName = '';
-                    
-                    switch (toolType) {
-                        case 'user':
-                            iconClass = 'fa-user';
-                            defaultName = 'Yeni İstifadəçi';
-                            break;
-                        case 'group':
-                            iconClass = 'fa-users';
-                            defaultName = 'Yeni Qrup';
-                            break;
-                        case 'computer':
-                            iconClass = 'fa-desktop';
-                            defaultName = 'Yeni Kompüter';
-                            break;
-                        case 'ou':
-                            iconClass = 'fa-folder';
-                            defaultName = 'Yeni OU';
-                            break;
-                        case 'gpo':
-                            iconClass = 'fa-cogs';
-                            defaultName = 'Yeni GPO';
-                            break;
-                    }
-                    
-                    newObject.innerHTML = `
-                        <div class="object-icon"><i class="fas ${iconClass}"></i></div>
-                        <div class="object-label">${defaultName}</div>
-                    `;
-                    
-                    // Add to canvas
-                    canvas.appendChild(newObject);
-                    
-                    // Make draggable
-                    newObject.draggable = true;
-                    
-                    // Add click event to show properties
+        });
+    </script> event to show properties
                     newObject.addEventListener('click', function(e) {
                         e.stopPropagation();
                         showProperties(newObject);
@@ -1988,83 +1770,12 @@
         </div>
     </footer>
 
-    <div class="floating-panel" id="toolsPanel">
-        <div class="panel-header">
-            <i class="fas fa-tools"></i> Əlavə Alətlər
-            <button class="panel-toggle"><i class="fas fa-chevron-up"></i></button>
-        </div>
-        <div class="panel-content">
-            <div class="panel-section">
-                <h4><i class="fas fa-calculator"></i> Server Tələbləri Kalkulyatoru</h4>
-                <div class="calc-form">
-                    <div class="form-group">
-                        <label>İstifadəçi sayı:</label>
-                        <input type="number" id="userCount" min="1" max="10000" value="50">
-                    </div>
-                    <div class="form-group">
-                        <label>Kompüter sayı:</label>
-                        <input type="number" id="computerCount" min="1" max="10000" value="50">
-                    </div>
-                    <button id="calculateBtn" class="btn btn-primary">Hesabla</button>
-                </div>
-                <div id="calculationResult" class="calculation-result">
-                    <p>Server spesifikasiyaları burada göstəriləcək...</p>
-                </div>
-            </div>
-            
-            <div class="panel-section">
-                <h4><i class="fas fa-list-check"></i> Quraşdırma Yoxlama Siyahısı</h4>
-                <div class="checklist">
-                    <div class="checklist-item">
-                        <input type="checkbox" id="check1">
-                        <label for="check1">Server avadanlığını yoxla</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="check2">
-                        <label for="check2">Şəbəkəni planlaşdır</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="check3">
-                        <label for="check3">Windows Server quraşdır</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="check4">
-                        <label for="check4">Statik IP təyin et</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="check5">
-                        <label for="check5">Active Directory quraşdır</label>
-                    </div>
-                    <div class="checklist-item">
-                        <input type="checkbox" id="check6">
-                        <label for="check6">Domen strukturunu planlaşdır</label>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="panel-section">
-                <h4><i class="fas fa-code"></i> PowerShell Skriptləri</h4>
-                <div class="code-snippet">
-                    <pre><code># AD istifadəçisini yaratmaq üçün PowerShell skripti
-New-ADUser -Name "Yeni İstifadəçi" -GivenName "Yeni" -Surname "İstifadəçi" `
--SamAccountName "yistifadeci" -UserPrincipalName "yistifadeci@domain.local" `
--Path "OU=İstifadəçilər,DC=domain,DC=local" -AccountPassword (ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force) `
--Enabled $true</code></pre>
-                    <button class="btn btn-sm copy-btn" data-target="code-1"><i class="fas fa-copy"></i> Kopyala</button>
-                </div>
-                
-                <div class="code-snippet">
-                    <pre><code># Çoxlu istifadəçini CSV faylından import etmək
-Import-Csv -Path "C:\Users.csv" | ForEach-Object {
-    $securePassword = ConvertTo-SecureString $_.Password -AsPlainText -Force
-    New-ADUser -Name $_.Name -GivenName $_.FirstName -Surname $_.LastName `
-    -SamAccountName $_.SamAccountName -UserPrincipalName "$($_.SamAccountName)@domain.local" `
-    -Path $_.OUPath -AccountPassword $securePassword -Enabled $true
-}</code></pre>
-                    <button class="btn btn-sm copy-btn" data-target="code-2"><i class="fas fa-copy"></i> Kopyala</button>
-                </div>
-            </div>
-        </div>
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
     </div>
 
         <div class="interactive-demo fade-in">
@@ -2151,81 +1862,46 @@ Import-Csv -Path "C:\Users.csv" | ForEach-Object {
         </div>
 
         <div class="section fade-in">
-            <h2><i class="fas fa-chart-network"></i> Active Directory Ssenariləri Simulyatoru</h2>
-            <p>Bu interaktiv simulyator vasitəsilə müxtəlif Active Directory ssenarilərini virtual mühitdə sınaqdan keçirə bilərsiniz.</p>
+            <h2><i class="fas fa-chart-network"></i> Active Directory Ssenariləri</h2>
+            <p>Active Directory, şəbəkə resurslarını idarə etmək və təşkilati strukturları yaratmaq üçün güclü bir vasitədir. Aşağıda ən çox istifadə edilən ssenarilərdən bir neçəsi verilmişdir.</p>
             
-            <div class="simulator-container">
-                <div class="simulator-header">
-                    <div class="scenario-selector">
-                        <label for="scenarioSelect">Ssenarini seçin:</label>
-                        <select id="scenarioSelect" class="form-control">
-                            <option value="user-creation">İstifadəçi Yaratma</option>
-                            <option value="group-policy">Group Policy Tətbiqi</option>
-                            <option value="ou-structure">OU Strukturu Planlaşdırma</option>
-                            <option value="replication">Replikasiya Konfiqurasiyası</option>
-                        </select>
-                    </div>
-                    <button id="startSimulation" class="btn btn-primary">Simulyasiyanı Başlat</button>
-                </div>
-                
-                <div class="simulator-workspace">
-                    <div class="workspace-sidebar">
-                        <div class="tool-palette">
-                            <div class="tool-item" draggable="true" data-tool="user">
-                                <i class="fas fa-user"></i> İstifadəçi
-                            </div>
-                            <div class="tool-item" draggable="true" data-tool="group">
-                                <i class="fas fa-users"></i> Qrup
-                            </div>
-                            <div class="tool-item" draggable="true" data-tool="computer">
-                                <i class="fas fa-desktop"></i> Kompüter
-                            </div>
-                            <div class="tool-item" draggable="true" data-tool="ou">
-                                <i class="fas fa-folder"></i> OU
-                            </div>
-                            <div class="tool-item" draggable="true" data-tool="gpo">
-                                <i class="fas fa-cogs"></i> GPO
-                            </div>
+            <div class="cards-container">
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="flip-front">
+                            <i class="fas fa-building fa-3x"></i>
+                            <h3>Şirkət Strukturu</h3>
                         </div>
-                    </div>
-                    
-                    <div class="workspace-canvas" id="simulatorCanvas">
-                        <div class="canvas-placeholder">
-                            <i class="fas fa-arrow-left"></i>
-                            <p>Ssenarini seçin və simulyasiyanı başladın, daha sonra sol tərəfdəki elementləri bu sahəyə sürükləyin.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="workspace-properties">
-                        <h4>Xüsusiyyətlər</h4>
-                        <div class="property-placeholder">
-                            <p>Element seçilməyib</p>
-                        </div>
-                        <div class="property-panel" style="display: none;">
-                            <div class="form-group">
-                                <label>Ad:</label>
-                                <input type="text" id="propName" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>Təsvir:</label>
-                                <input type="text" id="propDescription" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label>Yol:</label>
-                                <input type="text" id="propPath" class="form-control" readonly>
-                            </div>
-                            <button id="applyProperties" class="btn btn-sm btn-primary">Tətbiq Et</button>
+                        <div class="flip-back">
+                            <h3>Departament Əsaslı OU Təşkilatı</h3>
+                            <p>Təşkilati vahidləri departamentlərə görə təşkil etmək (məsələn, İnsan Resursları, İT, Satış) ən çox istifadə edilən yanaşmadır. Hər bir departament öz GPO və təhlükəsizlik siyasətlərinə malik ola bilər.</p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="simulator-logs">
-                    <div class="logs-header">
-                        <h4>Əməliyyat Jurnalı</h4>
-                        <button class="btn btn-sm" id="clearLogs">Təmizlə</button>
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="flip-front">
+                            <i class="fas fa-globe-europe fa-3x"></i>
+                            <h3>Coğrafi Yerləşim</h3>
+                        </div>
+                        <div class="flip-back">
+                            <h3>Lokasiya Əsaslı OU Təşkilatı</h3>
+                            <p>Müxtəlif coğrafi yerlərdə fəaliyyət göstərən şirkətlər üçün, OU-lar ofis yerləşimlərinə görə təşkil edilə bilər (məsələn, Bakı, London, New York). Bu, yerli siyasətlərin və tənzimləmələrin tətbiq edilməsini asanlaşdırır.</p>
+                        </div>
                     </div>
-                    <div class="logs-content" id="simulationLogs">
-                        <p class="log-entry"><span class="log-time">13:45:22</span> <span class="log-type info">INFO</span> Simulyasiya başlamağa hazırdır.</p>
+                </div>
+                
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="flip-front">
+                            <i class="fas fa-users-cog fa-3x"></i>
+                            <h3>Resurs Paylaşımı</h3>
+                        </div>
+                        <div class="flip-back">
+                            <h3>Qruplar Vasitəsilə İcazə İdarəetməsi</h3>
+                            <p>Qruplardan istifadə edərək fayl paylaşım və tətbiq icazələrini daha effektiv şəkildə idarə etmək. Rollar əsasında qrup yerləşdirmələri ilə işçilər daxil olduqda avtomatik olaraq doğru resurslara çata bilərlər.</p>
+                        </div>
                     </div>
                 </div>
             </div>
