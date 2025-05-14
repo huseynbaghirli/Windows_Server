@@ -636,3 +636,67 @@
                     <img src="/api/placeholder/640/360" alt="RDP aktivləşdirilir">
                     <div class="animation-tooltip">Remote Desktop Connection xidməti aktivləşdirilir</div>
                 </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Təhlükəsizliyi artırmaq üçün uzaqdan girişi yalnız administrator qrupuna məhdudlaşdırın və mümkünsə şəbəkə səviyyəsində əlavə təhlükəsizlik tədbirləri tətbiq edin.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">4</span>
+                    IP Ünvanı Məlumatlarına Baxış
+                </div>
+                <p class="step-description">Active Directory quraşdırmadan əvvəl mövcud şəbəkə parametrlərinə baxmaq və şəbəkə adapterlərinin düzgün quraşdırıldığını yoxlamaq vacibdir.</p>
+                <div class="animation-container">
+                    <img src="/api/placeholder/640/360" alt="IP ünvanına baxış">
+                    <div class="animation-tooltip">ipconfig əmri ilə mövcud şəbəkə məlumatlarını göstərir</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: "ipconfig /all" əmri daha ətraflı məlumat əldə etməyə imkan verir. Bu əmrlə MAC ünvanı, DNS server ünvanları və digər şəbəkə konfiqurasiyalarını görə bilərsiniz.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">5</span>
+                    Statik IP Ünvanı Təyin Edilməsi
+                </div>
+                <p class="step-description">Domen kontrolleri üçün statik IP ünvanı təyin etmək çox vacibdir. DHCP-dən alınan dinamik ünvanlar domen xidmətlərinin fəaliyyətində problemlər yarada bilər.</p>
+                <div class="animation-container">
+                    <img src="/api/placeholder/640/360" alt="Statik IP təyin edilir">
+                    <div class="animation-tooltip">Şəbəkə adapterin xüsusiyyətlərində statik IP konfiqurasiyası edilir</div>
+                </div>
+                <div class="warning">
+                    <i class="fas fa-exclamation-triangle icon"></i> Diqqət: Statik IP ünvanını təyin edərkən şəbəkə administratoru ilə məsləhətləşin. Təkrarlanan IP ünvanları şəbəkə konfliktinə səbəb ola bilər. DNS server kimi eyni server IP ünvanını göstərin.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">6</span>
+                    Vaxt Qurşağının Tənzimlənməsi
+                </div>
+                <p class="step-description">Active Directory-nin düzgün işləməsi üçün vaxt qurşağını düzgün konfiqurasiya etmək vacibdir. Kerberos autentifikasiyası zamanı dəqiq vaxt tələb olunur.</p>
+                <div class="animation-container">
+                    <img src="/api/placeholder/640/360" alt="Vaxt qurşağının dəyişdirilməsi">
+                    <div class="animation-tooltip">Sistem vaxt qurşağı düzgün bölgə ilə sinxronlaşdırılır</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Active Directory mühitlərində bütün komputerlərin vaxtı domen kontrolleri ilə avtomatik sinxronlaşdırılır. Domen kontrollerinin vaxtı isə bir xarici NTP serverlə sinxronlaşdırıla bilər.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">7</span>
+                    Dəyişikliklərin Tətbiqi üçün Yenidən Başladılma
+                </div>
+                <p class="step-description">Edilən dəyişikliklərin tam tətbiq olunması üçün serveri yenidən başladın. Bu, xüsusilə host adı dəyişikliyi üçün vacibdir.</p>
+                <div class="animation-container">
+                    <img src="/api/placeholder/640/360" alt="Dəyişikliklər üçün restart">
+                    <div class="animation-tooltip">Server yenidən başladılır ki dəyişikliklər tam tətbiq olunsun</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Server yenidən başladılmadan əvvəl bütün vacib əməliyyatları saxladığınızdan və ya bitirdiyinizdən əmin olun. Planlaşdırılmamış yenidən başlatmalar data itkisinə səbəb ola bilər.
+                </div>
+            </div>
