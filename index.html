@@ -2,108 +2,888 @@
 <html lang="az">
 <head>
     <meta charset="UTF-8">
-    <title>Windows Server 2016 və Active Directory Quraşdırılması</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Server 2016 və Active Directory Quraşdırılması - İnteraktiv Təlimat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #0078d7;
+            --secondary-color: #005a9e;
+            --accent-color: #ffb900;
+            --text-color: #333;
+            --light-bg: #f5f7fa;
+            --dark-bg: #2c3e50;
+            --success-color: #00b894;
+            --warning-color: #f39c12;
+            --radius: 8px;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
+            padding: 0;
+            margin: 0;
         }
-        h1, h2, h3 {
-            color: #003366;
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        img {
-            max-width: 100%;
-            height: auto;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        
+        header {
+            background: var(--dark-bg);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-color);
+            position: relative;
+            overflow: hidden;
         }
-        hr {
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/api/placeholder/1200/400') center/cover no-repeat;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        header .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            margin: 40px 0 20px;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin: 25px 0 15px;
+            color: var(--secondary-color);
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .intro {
+            font-size: 1.2rem;
+            margin: 30px 0;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .section {
+            background: white;
             margin: 40px 0;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .section-number {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            background: var(--accent-color);
+            color: var(--dark-bg);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .step {
+            background: var(--light-bg);
+            margin: 25px 0;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .step:hover {
+            transform: translateX(5px);
+            border-left-color: var(--accent-color);
+        }
+        
+        .step-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        
+        .step-description {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+        
+        .animation-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius);
+            border: 2px solid #ddd;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            background: #f9f9f9;
+        }
+        
+        .animation-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .animation-container:hover img {
+            transform: scale(1.02);
+        }
+        
+        .tip {
+            background: rgba(255, 185, 0, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        
+        .warning {
+            background: rgba(243, 156, 18, 0.1);
+            border-left: 4px solid var(--warning-color);
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .success {
+            background: rgba(0, 184, 148, 0.1);
+            border-left: 4px solid var(--success-color);
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .icon {
+            margin-right: 8px;
+            font-size: 1.2em;
+            vertical-align: middle;
+        }
+        
+        footer {
+            background: var(--dark-bg);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+        
+        .progress-tracker {
+            position: sticky;
+            top: 0;
+            background: var(--dark-bg);
+            color: white;
+            padding: 10px 0;
+            z-index: 100;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            margin: 10px auto;
+            width: 80%;
+            max-width: 800px;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 99;
+        }
+        
+        .scroll-top.visible {
+            opacity: 1;
+        }
+        
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .summary-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-right: 20px;
+        }
+        
+        .benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .benefit-card {
+            flex: 1 1 300px;
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .benefit-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+            border-radius: var(--radius);
+            margin: 50px 0;
+        }
+        
+        .cta-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        /* Hover tooltips for the animations */
+        .animation-container {
+            position: relative;
+        }
+        
+        .animation-tooltip {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .animation-container:hover .animation-tooltip {
+            transform: translateY(0);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.8rem; }
+            h3 { font-size: 1.3rem; }
+            .section-number { width: 40px; height: 40px; font-size: 1.2rem; }
+            .section { padding: 20px; }
+            .intro { font-size: 1.1rem; }
+        }
+
+        /* Animation for elements */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease forwards;
+            opacity: 0;
         }
     </style>
 </head>
 <body>
+    <div class="progress-tracker">
+        <div class="container">
+            <span>Təlimat Proqresi</span>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
 
-<h1>🖥️ Windows Server 2016 və Active Directory (AD) Quraşdırılması</h1>
-<p>Bu səhifədə Windows Server 2016-nın quraşdırılması və Active Directory xidmətinin əlavə olunması prosesi animasiyalarla addım-addım göstərilir.</p>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-server"></i> Windows Server 2016 və Active Directory</h1>
+            <h3>Quraşdırılması və İdarə edilməsi üzrə İnteraktiv Təlimat</h3>
+        </div>
+    </header>
 
-<hr>
+    <div class="container">
+        <p class="intro">
+            <i class="fas fa-quote-left"></i> Bu təlim, Windows Server 2016 və Active Directory xidmətinin quraşdırılması, konfiqurasiyası və effektiv istifadəsi üçün addım-addım göstərişlər verir. Biz sizi sıfırdan başlayaraq tam funksional bir domen kontrollerinə qədər aparacağıq. <i class="fas fa-quote-right"></i>
+        </p>
 
-<h2>1️⃣ Sistem yüklənməsi və quraşdırma</h2>
+        <div class="benefits">
+            <div class="benefit-card fade-in">
+                <div class="benefit-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Təhlükəsizlik</h3>
+                <p>Active Directory istifadəçi hesablarını mərkəzləşdirilmiş şəkildə idarə etməklə təhlükəsizliyi artırır</p>
+            </div>
+            <div class="benefit-card fade-in">
+                <div class="benefit-icon">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <h3>Mərkəzləşdirilmiş İdarəetmə</h3>
+                <p>Bütün şəbəkə resurslarınızı bir nöqtədən idarə etmənizə imkan verir</p>
+            </div>
+            <div class="benefit-card fade-in">
+                <div class="benefit-icon">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <h3>Effektivlik</h3>
+                <p>Group Policy vasitəsilə yüzlərlə kompüteri eyni vaxtda idarə edin</p>
+            </div>
+        </div>
 
-<h3>Windows Server başladılır</h3>
-<img src="Windows Server and AD installation/Gif/1.Animation.gif" alt="1.Animation">
+        <div class="section fade-in">
+            <div class="section-number">1</div>
+            <h2><i class="fas fa-rocket"></i> Windows Server 2016 Yüklənməsi və İlkin Quraşdırma</h2>
+            <p>Windows Server 2016 əməliyyat sisteminin yüklənməsi və ilkin quraşdırılması prosesini addım-addım izləyəcəyik. Bu mərhələ, serverinizin əsasını təşkil edir.</p>
 
-<h3>Dil seçimi</h3>
-<img src="Windows Server and AD installation/Gif/2.language.gif" alt="2.language">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    Windows Server 2016 Quraşdırılmasının Başladılması
+                </div>
+                <p class="step-description">Windows Server 2016 quraşdırma diskini daxil edin və ya ISO faylından boot edin. Setup ekranı göründükdə quraşdırmaya başlayın.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/1.Animation.gif" alt="Windows Server quraşdırma prosesinin başlanğıcı">
+                    <div class="animation-tooltip">Quraşdırma ekranı yüklənir və sistem hazırlıq vəziyyətindədir</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Quraşdırmadan əvvəl serverinizin sistem tələblərini yoxlayın. Windows Server 2016 üçün minimum 1.4 GHz prosessor, 512 MB RAM və 32 GB disk sahəsi tələb olunur.
+                </div>
+            </div>
 
-<h3>Quraşdırma növü seçilir (Custom)</h3>
-<img src="Windows Server and AD installation/Gif/3.custom.gif" alt="3.custom">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">2</span>
+                    Dil və Bölgə Seçimləri
+                </div>
+                <p class="step-description">Quraşdırma dilini, vaxt və valyuta formatını, klaviatura düzümünü seçin. Bu addımda serverinizin lokallaşdırma parametrlərini təyin edirsiniz.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/2.language.gif" alt="Dil və bölgə seçimləri">
+                    <div class="animation-tooltip">Dil və region parametrləri seçilir</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Server administratorlarının əksəriyyəti, beynəlxalq standartlara uyğunluq üçün ingilis dilini seçir, lakin sizin mühitinizə uyğun dili seçə bilərsiniz.
+                </div>
+            </div>
 
-<h3>Desktop Experience ilə versiya seçimi</h3>
-<img src="Windows Server and AD installation/Gif/4.Desktop Experience.gif" alt="4.Desktop Experience">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">3</span>
+                    Quraşdırma Növünün Seçilməsi
+                </div>
+                <p class="step-description">Windows Server-i yeniləmək və ya xüsusi quraşdırma arasında seçim edin. Yeni quraşdırma üçün "Custom: Install Windows only (advanced)" seçin.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/3.custom.gif" alt="Custom quraşdırma seçilir">
+                    <div class="animation-tooltip">Xüsusi quraşdırma növü seçilir</div>
+                </div>
+                <div class="warning">
+                    <i class="fas fa-exclamation-triangle icon"></i> Diqqət: "Custom" seçimi mövcud verilənləri silə bilər. Əgər mövcud sistem üzərində quraşdırma aparırsınızsa, əvvəlcədən vacib məlumatlarınızı yedəkləyin.
+                </div>
+            </div>
 
-<h3>Quraşdırma davam edir</h3>
-<img src="Windows Server and AD installation/Gif/5.installing.gif" alt="5.installing">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">4</span>
+                    Server Versiyasının Seçilməsi
+                </div>
+                <p class="step-description">Windows Server 2016-nın quraşdırmaq istədiyiniz versiyasını seçin. "Desktop Experience" istifadəçi interfeysi ilə tam versiyanı təklif edir, "Core" isə yalnız əmr sətri interfeysini ehtiva edir.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/4.Desktop Experience.gif" alt="Desktop Experience versiya seçimi">
+                    <div class="animation-tooltip">Desktop Experience ilə Windows Server versiyası seçilir</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: "Desktop Experience" yeni başlayanlar üçün daha rahat olsa da, "Core" versiyası daha az sistem resursu istifadə edir və təhlükəsizlik baxımından daha yaxşıdır.
+                </div>
+            </div>
 
-<h3>Yenidən başladılır</h3>
-<img src="Windows Server and AD installation/Gif/6.restartred.gif" alt="6.restartred">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">5</span>
+                    Quraşdırma Prosesi
+                </div>
+                <p class="step-description">Windows Server 2016-nın quraşdırılması prosesi başlayır. Bu mərhələdə sistem faylları köçürülür, genişləndirilir və xüsusiyyətlər quraşdırılır.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/5.installing.gif" alt="Quraşdırma prosesi">
+                    <div class="animation-tooltip">Windows Server faylları və komponentləri quraşdırılır</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Quraşdırma prosesi server avadanlığınızın gücündən asılı olaraq 20-45 dəqiqə arası çəkə bilər. Bu müddət ərzində serverə müdaxilə etməyin.
+                </div>
+            </div>
 
-<h3>Administrator parolu təyin edilir</h3>
-<img src="Windows Server and AD installation/Gif/7.Administator Password.gif" alt="7.Administator Password">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">6</span>
+                    Sistemin Yenidən Başladılması
+                </div>
+                <p class="step-description">Quraşdırma tamamlandıqdan sonra sistem avtomatik olaraq yenidən başladılır. Bu, ilkin quraşdırmaların tətbiq edilməsi üçün vacibdir.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/6.restartred.gif" alt="Sistemin yenidən başladılması">
+                    <div class="animation-tooltip">Windows Server quraşdırma tamamlandıqdan sonra yenidən başladılır</div>
+                </div>
+            </div>
 
-<h3>İlk giriş</h3>
-<img src="Windows Server and AD installation/Gif/8.login.gif" alt="8.login">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">7</span>
+                    Administrator Parolunun Təyin Edilməsi
+                </div>
+                <p class="step-description">İlk giriş zamanı Administrator hesabı üçün güclü bir parol təyin edin. Bu, serverinizin təhlükəsizliyi üçün kritik əhəmiyyət daşıyır.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/7.Administator Password.gif" alt="Administrator parolu təyin edilir">
+                    <div class="animation-tooltip">Administrator hesabı üçün güclü parol təyin edilir</div>
+                </div>
+                <div class="warning">
+                    <i class="fas fa-exclamation-triangle icon"></i> Diqqət: Mütləq mürəkkəb və təhlükəsiz bir parol seçin (ən az 8 simvol, böyük və kiçik hərflər, rəqəmlər və xüsusi simvollar daxil olmaqla). Bu parolu təhlükəsiz bir yerdə saxlayın, çünki onu itirdikdə serveri bərpa etmək çətin ola bilər.
+                </div>
+            </div>
 
-<h3>Server istifadəyə hazırdır</h3>
-<img src="Windows Server and AD installation/Gif/9.installed .gif" alt="9.installed">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">8</span>
+                    İlk Giriş
+                </div>
+                <p class="step-description">Administrator hesabınız və yeni təyin etdiyiniz parol ilə sistemə daxil olun. İlk dəfə giriş edərkən Windows Server istifadəçi profili yaradılır.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/8.login.gif" alt="İlk giriş">
+                    <div class="animation-tooltip">Administrator hesabı ilə ilk giriş</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: İlk giriş digər girişlərə nisbətən daha çox vaxt ala bilər, çünki Windows istifadəçi profili parametrlərini konfiqurasiya edir.
+                </div>
+            </div>
 
-<hr>
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">9</span>
+                    Quraşdırma Tamamlandı
+                </div>
+                <p class="step-description">Windows Server 2016 artıq tam quraşdırılmışdır. Server Manager avtomatik olaraq açılır və sizə serverinizi idarə etmək üçün əsas interfeys təqdim edir.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/9.installed .gif" alt="Quraşdırma tamamlandı">
+                    <div class="animation-tooltip">Windows Server quraşdırılması tamamlanıb və Server Manager açılıb</div>
+                </div>
+                <div class="success">
+                    <i class="fas fa-check-circle icon"></i> Təbrik edirik! Windows Server 2016 uğurla quraşdırıldı. İndi növbəti addımlara keçə bilərsiniz.
+                </div>
+            </div>
+        </div>
 
-<h2>2️⃣ Əsas Konfiqurasiya Addımları</h2>
+        <div class="section fade-in">
+            <div class="section-number">2</div>
+            <h2><i class="fas fa-cogs"></i> Əsas Konfiqurasiya Ayarları</h2>
+            <p>Bu bölmədə Windows Server 2016-nın əsas konfiqurasiya parametrlərini tənzimləyəcəyik. Bu addımlar serverinizin şəbəkədə düzgün işləməsi üçün vacibdir.</p>
 
-<h3>Host adının dəyişdirilməsi</h3>
-<img src="Windows Server and AD installation/Gif/10.changehostname.gif" alt="10.changehostname">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    Serverin Host Adının Dəyişdirilməsi
+                </div>
+                <p class="step-description">Serverə daha mənalı və tanınan bir ad verin. Bu, şəbəkədə serverin identifikasiyası üçün vacibdir və Active Directory quraşdırmadan əvvəl edilməlidir.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/10.changehostname.gif" alt="Host adının dəyişdirilməsi">
+                    <div class="animation-tooltip">Kompüter adı "ADSERVER" olaraq dəyişdirilir</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Host adını təşkilatınızın adlandırma konvensiyasına uyğun seçin. Məsələn, "DC01" və ya "ADSERVER" kimi adlar domen kontrolleri üçün uyğundur. Adda boşluqlar və xüsusi simvollar istifadə etməkdən çəkinin.
+                </div>
+            </div>
 
-<h3>Firewall-un söndürülməsi</h3>
-<img src="Windows Server and AD installation/Gif/11.disablefirewall.gif" alt="11.disablefirewall">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">2</span>
+                    Windows Firewall Söndürülməsi
+                </div>
+                <p class="step-description">Test və ya daxili mühitdə işləyərkən Windows Firewall-u söndürə bilərsiniz. Bu, quraşdırma zamanı yarana biləcək bağlantı problemlərini azaldır.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/11.disablefirewall.gif" alt="Firewall-un söndürülməsi">
+                    <div class="animation-tooltip">Windows Firewall bütün şəbəkə profilləri üçün söndürülür</div>
+                </div>
+                <div class="warning">
+                    <i class="fas fa-exclamation-triangle icon"></i> Diqqət: İstehsal mühitində firewall-u tamamilə söndürmək təhlükəsizlik riski yaradır. Əvəzinə, sadəcə lazım olan portları (Active Directory portları: 389, 445, 88, 53, 135, 3268, 3269, vb.) açın.
+                </div>
+            </div>
 
-<h3>Uzaqdan bağlantı (RDP) aktiv edilir</h3>
-<img src="Windows Server and AD installation/Gif/12.enablerdp.gif" alt="12.enablerdp">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">3</span>
+                    Uzaqdan İdarəetmə (RDP) Funksiyasının Aktivləşdirilməsi
+                </div>
+                <p class="step-description">Remote Desktop Protocol (RDP) funksiyasını aktivləşdirərək, serverə uzaqdan idarəetmə imkanı əldə edin. Bu, fiziki olaraq serverin yanında olmadan onun idarə edilməsini təmin edir.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/12.enablerdp.gif" alt="RDP aktivləşdirilir">
+                    <div class="animation-tooltip">Remote Desktop Connection xidməti aktivləşdirilir</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Təhlükəsizliyi artırmaq üçün uzaqdan girişi yalnız administrator qrupuna məhdudlaşdırın və mümkünsə şəbəkə səviyyəsində əlavə təhlükəsizlik tədbirləri tətbiq edin.
+                </div>
+            </div>
 
-<h3>IP ünvanına baxış</h3>
-<img src="Windows Server and AD installation/Gif/13.showip.gif" alt="13.showip">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">4</span>
+                    IP Ünvanı Məlumatlarına Baxış
+                </div>
+                <p class="step-description">Active Directory quraşdırmadan əvvəl mövcud şəbəkə parametrlərinə baxmaq və şəbəkə adapterlərinin düzgün quraşdırıldığını yoxlamaq vacibdir.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/13.showip.gif" alt="IP ünvanına baxış">
+                    <div class="animation-tooltip">ipconfig əmri ilə mövcud şəbəkə məlumatlarını göstərir</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: "ipconfig /all" əmri daha ətraflı məlumat əldə etməyə imkan verir. Bu əmrlə MAC ünvanı, DNS server ünvanları və digər şəbəkə konfiqurasiyalarını görə bilərsiniz.
+                </div>
+            </div>
 
-<h3>Statik IP təyin edilir</h3>
-<img src="Windows Server and AD installation/Gif/14.statik_ip.gif" alt="14.statik_ip">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">5</span>
+                    Statik IP Ünvanı Təyin Edilməsi
+                </div>
+                <p class="step-description">Domen kontrolleri üçün statik IP ünvanı təyin etmək çox vacibdir. DHCP-dən alınan dinamik ünvanlar domen xidmətlərinin fəaliyyətində problemlər yarada bilər.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/14.statik_ip.gif" alt="Statik IP təyin edilir">
+                    <div class="animation-tooltip">Şəbəkə adapterin xüsusiyyətlərində statik IP konfiqurasiyası edilir</div>
+                </div>
+                <div class="warning">
+                    <i class="fas fa-exclamation-triangle icon"></i> Diqqət: Statik IP ünvanını təyin edərkən şəbəkə administratoru ilə məsləhətləşin. Təkrarlanan IP ünvanları şəbəkə konfliktinə səbəb ola bilər. DNS server kimi eyni server IP ünvanını göstərin.
+                </div>
+            </div>
 
-<h3>Saat qurşağının dəyişdirilməsi</h3>
-<img src="Windows Server and AD installation/Gif/15.change_timezone.gif" alt="15.change_timezone">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">6</span>
+                    Vaxt Qurşağının Tənzimlənməsi
+                </div>
+                <p class="step-description">Active Directory-nin düzgün işləməsi üçün vaxt qurşağını düzgün konfiqurasiya etmək vacibdir. Kerberos autentifikasiyası zamanı dəqiq vaxt tələb olunur.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/15.change_timezone.gif" alt="Vaxt qurşağının dəyişdirilməsi">
+                    <div class="animation-tooltip">Sistem vaxt qurşağı düzgün bölgə ilə sinxronlaşdırılır</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Active Directory mühitlərində bütün komputerlərin vaxtı domen kontrolleri ilə avtomatik sinxronlaşdırılır. Domen kontrollerinin vaxtı isə bir xarici NTP serverlə sinxronlaşdırıla bilər.
+                </div>
+            </div>
 
-<h3>Dəyişikliklər üçün restart</h3>
-<img src="Windows Server and AD installation/Gif/16.restart_for_apply.gif" alt="16.restart_for_apply">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">7</span>
+                    Dəyişikliklərin Tətbiqi üçün Yenidən Başladılma
+                </div>
+                <p class="step-description">Edilən dəyişikliklərin tam tətbiq olunması üçün serveri yenidən başladın. Bu, xüsusilə host adı dəyişikliyi üçün vacibdir.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/16.restart_for_apply.gif" alt="Dəyişikliklər üçün restart">
+                    <div class="animation-tooltip">Server yenidən başladılır ki dəyişikliklər tam tətbiq olunsun</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Server yenidən başladılmadan əvvəl bütün vacib əməliyyatları saxladığınızdan və ya bitirdiyinizdən əmin olun. Planlaşdırılmamış yenidən başlatmalar data itkisinə səbəb ola bilər.
+                </div>
+            </div>
+        </div>
 
-<hr>
+        <div class="section fade-in">
+            <div class="section-number">3</div>
+            <h2><i class="fas fa-sitemap"></i> Active Directory Domain Services (AD DS) Quraşdırılması</h2>
+            <p>Bu bölmədə Windows Server 2016-da Active Directory Domain Services rolunu quraşdıracağıq. Bu, mərkəzləşdirilmiş şəbəkə idarəetməsinin əsasını təşkil edən kritik bir addımdır.</p>
 
-<h2>3️⃣ Active Directory Quraşdırılması</h2>
+            <div class="tip">
+                <i class="fas fa-lightbulb icon"></i> AD DS nədir? Active Directory Domain Services, şəbəkədə istifadəçi hesabları, kompüterlər, printerlar və digər resursların idarə edilməsi üçün mərkəzləşdirilmiş bir xidmətdir. Bu, təhlükəsizlik, resurs paylaşımı və şəbəkə idarəetməsi üçün əsas komponentdir.
+            </div>
 
-<h3>Rollar və xidmətlər əlavə edilir</h3>
-<img src="Windows Server and AD installation/Gif/17.add_roles+features.gif" alt="17.add_roles+features">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    Server Rolları və Xüsusiyyətlərinin Əlavə Edilməsi
+                </div>
+                <p class="step-description">Server Manager-dən "Add Roles and Features" sehrbazını başladaraq, yeni rol və xüsusiyyətlər əlavə edin. Bu, AD DS rolunu əlavə etmək üçün ilk addımdır.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/17.add_roles+features.gif" alt="Rollar və xüsusiyyətlər əlavə edilir">
+                    <div class="animation-tooltip">Server Manager-dən "Add Roles and Features" sehrbazı başladılır</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Server rolu əlavə etmədən əvvəl, serverinizin bütün yeniləmələrinin quraşdırıldığından və sistem stabilliyinin yoxlanıldığından əmin olun.
+                </div>
+            </div>
 
-<h3>AD DS rolu seçilir</h3>
-<img src="Windows Server and AD installation/Gif/18.Ad_select_installation.gif" alt="18.Ad_select_installation">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">2</span>
+                    Active Directory Domain Services Rolunun Seçilməsi
+                </div>
+                <p class="step-description">Server Roles bölməsində "Active Directory Domain Services" rolunu seçin. Bunu seçdikdə, tələb olunan əlavə xüsusiyyətlər avtomatik olaraq əlavə ediləcək.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/18.Ad_select_installation.gif" alt="AD DS rolu seçilir">
+                    <div class="animation-tooltip">Server Roles siyahısından Active Directory Domain Services seçilir</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Active Directory ilə birlikdə DNS Server rolu da quraşdırılmalıdır. Əgər avtomatik əlavə edilmirsə, əl ilə DNS Server rolunu da seçin.
+                </div>
+            </div>
 
-<h3>Domain adı yazılır</h3>
-<img src="Windows Server and AD installation/Gif/19.write_domain.gif" alt="19.write_domain">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">3</span>
+                    Domen Adının Təyin Edilməsi
+                </div>
+                <p class="step-description">Yeni domen adını təyin edin. Bu, şəbəkənizdəki bütün resurslar üçün ad məkanı (namespace) yaradacaq. Adətən domain.local və ya company.com formatları istifadə olunur.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/19.write_domain.gif" alt="Domen adı yazılır">
+                    <div class="animation-tooltip">Yeni domen adı kimi "domain.local" daxil edilir</div>
+                </div>
+                <div class="warning">
+                    <i class="fas fa-exclamation-triangle icon"></i> Diqqət: Domen adını diqqətlə seçin, çünki bu, qurulduqdan sonra dəyişdirilməsi çətin olan bir parametrdir. İnternet ilə əlaqəli domenlər üçün rəsmi domen adları (.com, .org, vb.) istifadə edin, daxili şəbəkələr üçün isə .local kimi qeyri-rəsmi domain adları istifadə etmək olar.
+                </div>
+            </div>
 
-<h3>Directory Services üçün parol təyin edilir</h3>
-<img src="Windows Server and AD installation/Gif/20.write_password.gif" alt="20.write_password">
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">4</span>
+                    Directory Services Bərpa Parolunun Təyin Edilməsi
+                </div>
+                <p class="step-description">Active Directory-nin təcili bərpası üçün istifadə olunacaq parol təyin edin. Bu, domenin sağlamlığını qorumaq üçün kritik əhəmiyyət daşıyan bir təhlükəsizlik tədbiridir.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/20.write_password.gif" alt="Directory Services üçün parol təyin edilir">
+                    <div class="animation-tooltip">DSRM (Directory Services Restore Mode) parolu təyin edilir</div>
+                </div>
+                <div class="warning">
+                    <i class="fas fa-exclamation-triangle icon"></i> Diqqət: DSRM parolunu unutmayın və təhlükəsiz bir yerdə saxlayın. Bu parol, Active Directory məlumat bazasının zədələnməsi və ya digər kritik problemlər zamanı bərpa üçün lazım olacaq.
+                </div>
+            </div>
 
-<hr>
+            <div class="success">
+                <i class="fas fa-check-circle icon"></i> Təbrik edirik! Active Directory Domain Services rolu uğurla quraşdırıldı və domen kontrolleri konfiqurasiyanı tamamladı. Artıq istifadəçilər, qruplar və kompüterlər yaratmağa və onları idarə etməyə başlaya bilərsiniz.
+            </div>
+        </div>
 
-<h2>✅ Serveriniz artıq domen idarəetməsi üçün hazırdır!</h2>
+        <div class="section fade-in">
+            <div class="section-number">4</div>
+            <h2><i class="fas fa-user-plus"></i> Active Directory İlə İşləmək</h2>
+            <p>Bu bölmədə, Active Directory-nin əsas idarəetmə tapşırıqlarını və gündəlik işləri yerinə yetirməyi öyrənəcəksiniz.</p>
 
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div>
+                    <h3>İstifadəçilər və Qruplar</h3>
+                    <p>Active Directory Users and Computers konsolu vasitəsilə istifadəçilər, qruplar və kompüter hesablarını idarə edin. Təşkilati birimlər (OU) yaradaraq resurslarınızı məntiqi şəkildə təşkil edə bilərsiniz.</p>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div>
+                    <h3>Qrup Siyasətləri</h3>
+                    <p>Group Policy Management konsolu ilə domen daxilindəki bütün kompüterlər və istifadəçilər üçün mərkəzləşdirilmiş qaydalar və siyasətlər tətbiq edin. Bu, şəbəkənizin təhlükəsizliyini və standartlaşdırılmasını təmin edir.</p>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-sync"></i>
+                </div>
+                <div>
+                    <h3>Replikasiya və Yerləşdirmə Strategiyası</h3>
+                    <p>Böyük təşkilatlar üçün çoxsaylı domen kontrollerləri arasında replikasiya planlaşdırması vacibdir. Sites and Services konsolu vasitəsilə replikasiya topolojiyasını idarə edin.</p>
+                </div>
+            </div>
+
+            <div class="tip">
+                <i class="fas fa-lightbulb icon"></i> İpucu: Active Directory strukturunuzu planlaşdırarkən təşkilatınızın həm indiki, həm də gələcək ehtiyaclarını nəzərə alın. Yaxşı planlaşdırılmış bir AD strukturu idarəetməni asanlaşdırır və gələcək genişlənməyə imkan verir.
+            </div>
+        </div>
+
+        <div class="cta-section fade-in">
+            <h2 class="cta-title"><i class="fas fa-graduation-cap"></i> Active Directory İdarəetməsində İrəli Addımlar</h2>
+            <p>Windows Server və Active Directory quraşdırılması yalnız başlanğıcdır. Daha dərin öyrənmə üçün aşağıdakı mövzuları araşdırın:</p>
+            <ul style="text-align: left; margin: 20px auto; max-width: 600px; list-style-type: none;">
+                <li><i class="fas fa-angle-right"></i> Group Policy obyektlərinin yaradılması və idarə edilməsi</li>
+                <li><i class="fas fa-angle-right"></i> FSMO (Flexible Single Master Operations) rollarının başa düşülməsi</li>
+                <li><i class="fas fa-angle-right"></i> Active Directory sağlamlığının monitorinqi və problemlərin həlli</li>
+                <li><i class="fas fa-angle-right"></i> Backup və Recovery strategiyaları</li>
+                <li><i class="fas fa-angle-right"></i> LDAP sorğuları və PowerShell ilə AD idarəetməsi</li>
+            </ul>
+        </div>
+
+        <div class="section fade-in">
+            <h2><i class="fas fa-check-circle"></i> Quraşdırma Tamamlandı - Sonrakı Addımlar</h2>
+            <p>Windows Server 2016 və Active Directory quraşdırması uğurla tamamlandı! İndi şəbəkənizin əsas infrastruktur komponenti hazırdır.</p>
+            
+            <div class="success">
+                <i class="fas fa-server icon"></i> <strong>Serveriniz artıq domen idarəetməsi üçün hazırdır!</strong> İstifadəçilər yarada, qruplar təyin edə, kompüter hesabları əlavə edə, qrup siyasətləri ilə təhlükəsizlik qaydaları tətbiq edə və Active Directory-nin bütün üstünlüklərindən istifadə edə bilərsiniz.
+            </div>
+            
+            <p>İnfrastrukturunuzu daha da inkişaf etdirmək üçün aşağıdakıları nəzərdən keçirin:</p>
+            <ul>
+                <li>File Server, Print Server, DHCP, vb. kimi əlavə server rollarının quraşdırılması</li>
+                <li>Active Directory Certificate Services (AD CS) ilə PKI infrastrukturunun qurulması</li>
+                <li>Exchange Server, SharePoint, və ya SQL Server kimi əlavə Microsoft xidmətlərinin inteqrasiyası</li>
+                <li>Azure Active Directory (AAD) ilə hibrid kimlik idarəetməsinin qurulması</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Windows Server 2016 və Active Directory Quraşdırma Təlimatı &copy; 2025</p>
+            <p>Hazırladı: IT Pro Team</p>
+        </div>
+    </footer>
+
+    <div class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Progress bar functionality
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressFill").style.width = scrolled + "%";
+            
+            // Scroll to top button visibility
+            if (winScroll > 300) {
+                document.getElementById('scrollTop').classList.add('visible');
+            } else {
+                document.getElementById('scrollTop').classList.remove('visible');
+            }
+        });
+        
+        // Scroll to top functionality
+        document.getElementById('scrollTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Fade-in animation for sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
 </body>
 </html>
