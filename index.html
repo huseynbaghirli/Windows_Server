@@ -1,4 +1,813 @@
-<!DOCTYPE html>
+/* Style for AD objects in simulator */
+        .scenario-container {
+            padding: 20px;
+            height: 100%;
+            position: relative;
+        }
+        
+        .scenario-title {
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .ad-object {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            position: relative;
+            min-width: 120px;
+            z-index: 2;
+        }
+        
+        .ad-object:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .ad-object.selected {
+            outline: 2px solid var(--primary-color);
+        }
+        
+        .object-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .object-label {
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .ad-user .object-icon {
+            color: #0078d7;
+        }
+        
+        .ad-group .object-icon {
+            color: #107c10;
+        }
+        
+        .ad-computer .object-icon {
+            color: #5c2d91;
+        }
+        
+        .ad-ou .object-icon {
+            color: #ff8c00;
+        }
+        
+        .ad-gpo .object-icon {
+            color: #e81123;
+        }
+        
+        .ad-dc .object-icon {
+            color: #00b7c3;
+        }
+        
+        .object-children {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+            width: 100%;
+        }
+        
+        /* Replication diagram */
+        .replication-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .replication-arrow {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            background: #1e1e1e;
+            color: #f5f5f5;
+        }
+        
+        body.dark-mode .section,
+        body.dark-mode .animation-container,
+        body.dark-mode .step,
+        body.dark-mode .summary-card,
+        body.dark-mode .benefit-card,
+        body.dark-mode .node-info,
+        body.dark-mode .simulator-container {
+            background: #333;
+            color: #f5f5f5;
+        }
+        
+        body.dark-mode h1,
+        body.dark-mode h2,
+        body.dark-mode h3 {
+            color: #0078d7;
+        }
+        
+        body.dark-mode .step {
+            border-left-color: #0078d7;
+        }
+        
+        body.dark-mode .animation-container {
+            border-color: #555;
+        }
+        
+        body.dark-mode .animation-tooltip {
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        body.dark-mode .dark-mode-toggle {
+            background: #0078d7;
+        }
+        
+        body.dark-mode .dark-mode-toggle i {
+            color: white;
+        }
+        
+        /* Checkbox styles */
+        .checklist-item input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            margin-right: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .checklist-item input[type="checkbox"]:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .checklist-item input[type="checkbox"]:checked::after {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 12px;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+            <script>
+        // Progress bar functionality
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressFill").style.width = scrolled + "%";
+            
+            // Scroll to top button visibility
+            if (winScroll > 300) {
+                document.getElementById('scrollTop').classList.add('visible');
+            } else {
+                document.getElementById('scrollTop').classList.remove('visible');
+            }
+        });
+        
+        // Scroll to top functionality
+        document.getElementById('scrollTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Fade-in animation for sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Zoom functionality for animations
+            const zoomButtons = document.querySelectorAll('.zoom-btn');
+            zoomButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const container = this.closest('.animation-container');
+                    const img = container.querySelector('img');
+                    
+                    if (this.classList.contains('zoom-in')) {
+                        img.style.width = (parseInt(getComputedStyle(img).width) * 1.2) + 'px';
+                    } else if (this.classList.contains('zoom-out')) {
+                        img.style.width = (parseInt(getComputedStyle(img).width) / 1.2) + 'px';
+                    } else if (this.classList.contains('zoom-reset')) {
+                        img.style.width = '100%';
+                    }
+                });
+            });
+            
+            // Floating panel toggle and drag functionality
+            const panelToggle = document.querySelector('.panel-toggle');
+            const floatingPanel = document.getElementById('toolsPanel');
+            const panelHeader = document.querySelector('.panel-header');
+            
+            if (panelToggle) {
+                panelToggle.addEventListener('click', function() {
+                    floatingPanel.classList.toggle('collapsed');
+                    this.querySelector('i').classList.toggle('fa-chevron-up');
+                    this.querySelector('i').classList.toggle('fa-chevron-down');
+                });
+            }
+            
+            // Make panel draggable
+            if (panelHeader && floatingPanel) {
+                let isDragging = false;
+                let offsetX, offsetY;
+                
+                panelHeader.addEventListener('mousedown', function(e) {
+                    isDragging = true;
+                    offsetX = e.clientX - floatingPanel.getBoundingClientRect().left;
+                    offsetY = e.clientY - floatingPanel.getBoundingClientRect().top;
+                });
+                
+                document.addEventListener('mousemove', function(e) {
+                    if (isDragging) {
+                        floatingPanel.style.left = (e.clientX - offsetX) + 'px';
+                        floatingPanel.style.top = (e.clientY - offsetY) + 'px';
+                    }
+                });
+                
+                document.addEventListener('mouseup', function() {
+                    isDragging = false;
+                });
+            }
+            
+            // Calculator functionality
+            const calculateBtn = document.getElementById('calculateBtn');
+            if (calculateBtn) {
+                calculateBtn.addEventListener('click', function() {
+                    const userCount = parseInt(document.getElementById('userCount').value);
+                    const computerCount = parseInt(document.getElementById('computerCount').value);
+                    
+                    let ram = Math.max(4, Math.ceil((userCount + computerCount) / 50) * 2);
+                    let cpu = Math.max(2, Math.ceil((userCount + computerCount) / 100) + 1);
+                    let storage = Math.max(60, 40 + Math.ceil(userCount * 0.1) + Math.ceil(computerCount * 0.05));
+                    
+                    const resultHTML = `
+                        <h5>Tövsiyə olunan konfiqurasiya:</h5>
+                        <ul>
+                            <li><strong>Prosessor:</strong> ${cpu} nüvə, 3.0+ GHz</li>
+                            <li><strong>RAM:</strong> ${ram} GB</li>
+                            <li><strong>Disk sahəsi:</strong> ${storage} GB</li>
+                            <li><strong>Şəbəkə:</strong> 1 Gbps Ethernet</li>
+                        </ul>
+                        <p class="small"><i class="fas fa-info-circle"></i> Böyük mühitlər üçün əlavə resurslar və ya klasteri nəzərdən keçirin.</p>
+                    `;
+                    
+                    document.getElementById('calculationResult').innerHTML = resultHTML;
+                });
+            }
+            
+            // Interactive AD Diagram
+            const nodeInfo = {
+                'dc': {
+                    title: 'Domain Controller (Domen Kontrolleri)',
+                    description: 'Active Directory Domain Services-i işlədən server. Autentifikasiya, istifadəçi hesablarını idarəetmə və qrup siyasəti tətbiq etmə kimi əsas xidmətlər təmin edir. Bir şəbəkədə birdən çox domen kontrolleri ola bilər və onlar arasında replikasiya baş verir.'
+                },
+                'users': {
+                    title: 'İstifadəçilər (Users)',
+                    description: 'Active Directory-də istifadəçi hesabları insanları təmsil edir. Bu hesablara təyin edilmiş adlar, parollar və icazələr vardır. İstifadəçilər qruplara daxil edilə bilər və onlara müxtəlif səviyyəli resurslara giriş icazələri verilə bilər.'
+                },
+                'computers': {
+                    title: 'Kompüterlər (Computers)',
+                    description: 'Domendəki bütün kompüterlər və serverlər üçün obyektlər. Kompüterlər də istifadəçilər kimi domen resurslarına daxil olmaq üçün autentifikasiya olunurlar. Onlara qrup siyasətləri tətbiq edilə bilər və təhlükəsizlik parametrləri mərkəzi olaraq idarə edilir.'
+                },
+                'groups': {
+                    title: 'Qruplar (Groups)',
+                    description: 'İstifadəçiləri və digər qrupları saxlayan konteynerlar. Qruplar icazələrin idarə edilməsini asanlaşdırır - bir qrupa icazə verdikdə, qrupun bütün üzvləri həmin icazəni alır. Təhlükəsizlik qrupları və paylaşım qrupları mövcuddur.'
+                },
+                'gpo': {
+                    title: 'Qrup Siyasəti Obyektləri (GPO)',
+                    description: 'Kompüter və istifadəçi parametrlərini mərkəzi şəkildə idarə etmək üçün istifadə olunan siyasət topluları. GPO-lar təhlükəsizlik parametrləri, proqram parametrləri, skript və proqram təminatının paylanması üçün istifadə olunur. Onlar domen, OU və ya sayt səviyyəsində tətbiq edilə bilər.'
+                },
+                'ou': {
+                    title: 'Təşkilati Vahidlər (OU)',
+                    description: 'Obyektləri məntiqi quruluşlarda qruplaşdırmaq üçün konteynerlar. OU-lar şirkətin strukturunu əks etdirərək (məsələn, departamentlər və ya coğrafi yerlər) daha yaxşı idarəetmə üçün istifadə olunur. GPO-lar OU-lara tətbiq edilə bilər və OU-lar bir-birinin içərisində yerləşdirilə bilər.'
+                }
+            };
+            
+            function activateNode(nodeId) {
+                // Reset all nodes
+                document.querySelectorAll('.diagram-node').forEach(node => {
+                    node.classList.remove('active');
+                });
+                
+                // Activate clicked node
+                document.querySelector(`[data-node="${nodeId}"]`).classList.add('active');
+                
+                // Update info panel
+                if (nodeInfo[nodeId]) {
+                    document.getElementById('nodeTitle').textContent = nodeInfo[nodeId].title;
+                    document.getElementById('nodeDescription').textContent = nodeInfo[nodeId].description;
+                }
+            }
+            
+            // Make the function globally available
+            window.activateNode = activateNode;
+            
+            // Dark mode toggle
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', function() {
+                    document.body.classList.toggle('dark-mode');
+                    const icon = this.querySelector('i');
+                    if (icon.classList.contains('fa-moon')) {
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                    } else {
+                        icon.classList.remove('fa-sun');
+                        icon.classList.add('fa-moon');
+                    }
+                });
+            }
+            
+            // Simulator functionality
+            const startSimulation = document.getElementById('startSimulation');
+            if (startSimulation) {
+                startSimulation.addEventListener('click', function() {
+                    const selectedScenario = document.getElementById('scenarioSelect').value;
+                    
+                    // Clear the canvas placeholder
+                    document.querySelector('.canvas-placeholder').style.display = 'none';
+                    
+                    // Add log entry
+                    addLogEntry('info', `"${selectedScenario}" ssenarisi başladıldı`);
+                    
+                    // Create initial diagram based on selected scenario
+                    const canvas = document.getElementById('simulatorCanvas');
+                    
+                    switch (selectedScenario) {
+                        case 'user-creation':
+                            canvas.innerHTML = createUserScenario();
+                            break;
+                        case 'group-policy':
+                            canvas.innerHTML = createGPOScenario();
+                            break;
+                        case 'ou-structure':
+                            canvas.innerHTML = createOUScenario();
+                            break;
+                        case 'replication':
+                            canvas.innerHTML = createReplicationScenario();
+                            break;
+                    }
+                    
+                    // Enable drag and drop for simulator elements
+                    enableDragAndDrop();
+                });
+            }
+            
+            // Simulation logs functionality
+            function addLogEntry(type, message) {
+                const now = new Date();
+                const timeStr = now.getHours().toString().padStart(2, '0') + ':' +
+                                now.getMinutes().toString().padStart(2, '0') + ':' +
+                                now.getSeconds().toString().padStart(2, '0');
+                
+                const logEntry = document.createElement('p');
+                logEntry.className = 'log-entry';
+                logEntry.innerHTML = `<span class="log-time">${timeStr}</span> <span class="log-type ${type}">${type.toUpperCase()}</span> ${message}`;
+                
+                const logsContent = document.getElementById('simulationLogs');
+                logsContent.appendChild(logEntry);
+                logsContent.scrollTop = logsContent.scrollHeight;
+            }
+            
+            // Clear logs button
+            const clearLogs = document.getElementById('clearLogs');
+            if (clearLogs) {
+                clearLogs.addEventListener('click', function() {
+                    document.getElementById('simulationLogs').innerHTML = '';
+                    addLogEntry('info', 'Jurnallar təmizləndi');
+                });
+            }
+            
+            // Scenario templates
+            function createUserScenario() {
+                return `
+                <div class="scenario-container">
+                    <div class="scenario-title">İstifadəçi Yaratma Ssenarisi</div>
+                    <div class="ad-object ad-ou" data-type="ou" id="users-ou">
+                        <div class="object-icon"><i class="fas fa-folder"></i></div>
+                        <div class="object-label">İstifadəçilər OU</div>
+                        <div class="object-children"></div>
+                    </div>
+                </div>`;
+            }
+            
+            function createGPOScenario() {
+                return `
+                <div class="scenario-container">
+                    <div class="scenario-title">Qrup Siyasəti Tətbiqi Ssenarisi</div>
+                    <div class="ad-object ad-ou" data-type="ou" id="domain-ou">
+                        <div class="object-icon"><i class="fas fa-sitemap"></i></div>
+                        <div class="object-label">Domain.local</div>
+                        <div class="object-children">
+                            <div class="ad-object ad-gpo" data-type="gpo" id="default-gpo">
+                                <div class="object-icon"><i class="fas fa-cogs"></i></div>
+                                <div class="object-label">Default Domain Policy</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            
+            function createOUScenario() {
+                return `
+                <div class="scenario-container">
+                    <div class="scenario-title">OU Strukturu Planlaşdırma</div>
+                    <div class="ad-object ad-ou" data-type="ou" id="root-ou">
+                        <div class="object-icon"><i class="fas fa-sitemap"></i></div>
+                        <div class="object-label">Domain.local</div>
+                        <div class="object-children"></div>
+                    </div>
+                </div>`;
+            }
+            
+            function createReplicationScenario() {
+                return `
+                <div class="scenario-container">
+                    <div class="scenario-title">Replikasiya Konfiqurasiyası</div>
+                    <div class="replication-diagram">
+                        <div class="ad-object ad-dc" data-type="dc" id="dc1">
+                            <div class="object-icon"><i class="fas fa-server"></i></div>
+                            <div class="object-label">DC1</div>
+                        </div>
+                        <div class="replication-arrow">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="ad-object ad-dc" data-type="dc" id="dc2">
+                            <div class="object-icon"><i class="fas fa-server"></i></div>
+                            <div class="object-label">DC2</div>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            
+            // Drag and drop functionality for simulator
+            function enableDragAndDrop() {
+                const toolItems = document.querySelectorAll('.tool-item');
+                const canvas = document.getElementById('simulatorCanvas');
+                const propertyPanel = document.querySelector('.property-panel');
+                const propertyPlaceholder = document.querySelector('.property-placeholder');
+                
+                toolItems.forEach(item => {
+                    item.addEventListener('dragstart', function(e) {
+                        e.dataTransfer.setData('text/plain', item.dataset.tool);
+                    });
+                });
+                
+                canvas.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                });
+                
+                canvas.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    const toolType = e.dataTransfer.getData('text/plain');
+                    
+                    // Create new object
+                    const newObject = document.createElement('div');
+                    newObject.className = `ad-object ad-${toolType}`;
+                    newObject.dataset.type = toolType;
+                    newObject.id = `${toolType}-${Math.floor(Math.random() * 1000)}`;
+                    
+                    // Position at drop location
+                    newObject.style.position = 'absolute';
+                    newObject.style.left = (e.clientX - canvas.getBoundingClientRect().left) + 'px';
+                    newObject.style.top = (e.clientY - canvas.getBoundingClientRect().top) + 'px';
+                    
+                    // Add icon and label
+                    let iconClass = '';
+                    let defaultName = '';
+                    
+                    switch (toolType) {
+                        case 'user':
+                            iconClass = 'fa-user';
+                            defaultName = 'Yeni İstifadəçi';
+                            break;
+                        case 'group':
+                            iconClass = 'fa-users';
+                            defaultName = 'Yeni Qrup';
+                            break;
+                        case 'computer':
+                            iconClass = 'fa-desktop';
+                            defaultName = 'Yeni Kompüter';
+                            break;
+                        case 'ou':
+                            iconClass = 'fa-folder';
+                            defaultName = 'Yeni OU';
+                            break;
+                        case 'gpo':
+                            iconClass = 'fa-cogs';
+                            defaultName = 'Yeni GPO';
+                            break;
+                    }
+                    
+                    newObject.innerHTML = `
+                        <div class="object-icon"><i class="fas ${iconClass}"></i></div>
+                        <div class="object-label">${defaultName}</div>
+                    `;
+                    
+                    // Add to canvas
+                    canvas.appendChild(newObject);
+                    
+                    // Make draggable
+                    newObject.draggable = true;
+                    
+                    // Add click event to show properties
+                    newObject.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        showProperties(newObject);
+                    });
+                    
+                    // Add log entry
+                    addLogEntry('success', `Yeni ${defaultName} yaradıldı`);
+                });
+                
+                // Property panel functionality
+                function showProperties(element) {
+                    propertyPanel.style.display = 'block';
+                    propertyPlaceholder.style.display = 'none';
+                    
+                    // Fill in current values
+                    document.getElementById('propName').value = element.querySelector('.object-label').textContent;
+                    document.getElementById('propDescription').value = element.dataset.description || '';
+                    document.getElementById('propPath').value = getObjectPath(element);
+                    
+                    // Apply button functionality
+                    document.getElementById('applyProperties').onclick = function() {
+                        const newName = document.getElementById('propName').value;
+                        const newDescription = document.getElementById('propDescription').value;
+                        
+                        element.querySelector('.object-label').textContent = newName;
+                        element.dataset.description = newDescription;
+                        
+                        addLogEntry('info', `"${newName}" xüsusiyyətləri yeniləndi`);
+                    };
+                }
+                
+                // Get object path for display
+                function getObjectPath(element) {
+                    const type = element.dataset.type;
+                    const name = element.querySelector('.object-label').textContent;
+                    
+                    switch (type) {
+                        case 'user':
+                            return `CN=${name},OU=İstifadəçilər,DC=domain,DC=local`;
+                        case 'group':
+                            return `CN=${name},OU=Qruplar,DC=domain,DC=local`;
+                        case 'computer':
+                            return `CN=${name},OU=Kompüterlər,DC=domain,DC=local`;
+                        case 'ou':
+                            return `OU=${name},DC=domain,DC=local`;
+                        case 'gpo':
+                            return `CN=${name},CN=Policies,CN=System,DC=domain,DC=local`;
+                        default:
+                            return '';
+                    }
+                }
+                
+                // Hide properties when clicking on canvas
+                canvas.addEventListener('click', function(e) {
+                    if (e.target === canvas) {
+                        propertyPanel.style.display = 'none';
+                        propertyPlaceholder.style.display = 'block';
+                    }
+                });
+            }
+            
+            // Copy button functionality for code snippets
+            const copyButtons = document.querySelectorAll('.copy-btn');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const codeElement = this.closest('.code-snippet').querySelector('code');
+                    const textToCopy = codeElement.textContent;
+                    
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        // Show success feedback
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i> Kopyalandı!';
+                        
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    });
+                });
+            });
+        });
+    </script>        /* Simulator styles */
+        .simulator-container {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        
+        .simulator-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .scenario-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-control {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        .simulator-workspace {
+            display: flex;
+            height: 400px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .workspace-sidebar {
+            width: 180px;
+            background: #f5f5f5;
+            border-right: 1px solid #eee;
+            padding: 15px;
+        }
+        
+        .tool-palette {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .tool-item {
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            cursor: move;
+            transition: all 0.2s;
+        }
+        
+        .tool-item:hover {
+            background: var(--light-bg);
+            transform: translateX(3px);
+        }
+        
+        .workspace-canvas {
+            flex: 1;
+            padding: 20px;
+            position: relative;
+            background: white;
+            overflow: auto;
+        }
+        
+        .canvas-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #aaa;
+            text-align: center;
+        }
+        
+        .canvas-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .workspace-properties {
+            width: 220px;
+            background: #f5f5f5;
+            border-left: 1px solid #eee;
+            padding: 15px;
+        }
+        
+        .workspace-properties h4 {
+            margin: 0 0 15px 0;
+            color: var(--primary-color);
+        }
+        
+        .property-placeholder {
+            color: #aaa;
+            font-style: italic;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .simulator-logs {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .logs-header {
+            padding: 10px 15px;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logs-header h4 {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+        }
+        
+        .logs-content {
+            padding: 10px 15px;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+        
+        .log-entry {
+            margin-bottom: 5px;
+        }
+        
+        .log-time {
+            color: #777;
+        }
+        
+        .log-type {
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-right: 5px;
+            font-size: 0.75rem;
+        }
+        
+        .log-type.info {
+            background: rgba(0, 120, 215, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .log-type.warning {
+            background: rgba(255, 185, 0, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .log-type.error {
+            background: rgba(232, 17, 35, 0.1);
+            color: #e81123;
+        }
+        
+        .log-type.success {
+            background: rgba(16, 124, 16, 0.1);
+            color: #107c10;
+        }        /* Card container */
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        /* Node info styles */
+        .node-info {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+        <!DOCTYPE html>
 <html lang="az">
 <head>
     <meta charset="UTF-8">
@@ -186,17 +995,53 @@
             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
             margin: 20px 0;
             background: #f9f9f9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .animation-container img {
             width: 100%;
-            height: auto;
+            max-height: 400px;
             display: block;
             transition: transform 0.3s ease;
+            object-fit: contain;
         }
         
         .animation-container:hover img {
             transform: scale(1.02);
+        }
+        
+        /* Zoom control for animations */
+        .animation-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+            padding: 5px 10px;
+            display: flex;
+            gap: 10px;
+            z-index: 5;
+        }
+        
+        .zoom-btn {
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+        
+        .zoom-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
         
         .tip {
@@ -262,6 +1107,308 @@
             border-radius: 5px;
             width: 0%;
             transition: width 0.5s ease;
+        }
+        
+        /* Floating Tools Panel */
+        .floating-panel {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 350px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .floating-panel.collapsed .panel-content {
+            display: none;
+        }
+        
+        .floating-panel.collapsed .panel-toggle i {
+            transform: rotate(180deg);
+        }
+        
+        .panel-header {
+            padding: 15px;
+            background: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+        }
+        
+        .panel-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .panel-toggle i {
+            transition: transform 0.3s;
+        }
+        
+        .panel-content {
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 0;
+        }
+        
+        .panel-section {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .panel-section:last-child {
+            border-bottom: none;
+        }
+        
+        .panel-section h4 {
+            margin: 0 0 15px 0;
+            font-size: 1rem;
+            color: var(--primary-color);
+        }
+        
+        /* Calculator styles */
+        .calc-form {
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 10px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary-color);
+        }
+        
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+        
+        .calculation-result {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        /* Checklist styles */
+        .checklist {
+            margin-bottom: 10px;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        
+        /* Code snippet styles */
+        .code-snippet {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .code-snippet pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+        
+        .code-snippet code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        /* Dark mode toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            background: var(--dark-bg);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 99;
+            transition: var(--transition);
+        }
+        
+        .dark-mode-toggle:hover {
+            transform: rotate(30deg);
+        }
+        
+        /* Interactive elements */
+        .interactive-demo {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+        }
+        
+        .demo-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .server-diagram {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .diagram-node {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .diagram-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .diagram-node.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .diagram-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .diagram-label {
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        
+        .diagram-connection {
+            position: absolute;
+            background: #ddd;
+            z-index: -1;
+            transition: background 0.3s;
+        }
+        
+        .diagram-connection.active {
+            background: var(--accent-color);
+        }
+        
+        /* 3D Flip cards */
+        .flip-container {
+            perspective: 1000px;
+            width: 300px;
+            height: 200px;
+            margin: 20px auto;
+        }
+        
+        .flipper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .flip-container:hover .flipper {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-front, .flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .flip-front {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            z-index: 2;
+        }
+        
+        .flip-back {
+            background: white;
+            color: var(--text-color);
+            transform: rotateY(180deg);
+            box-shadow: var(--shadow);
         }
         
         .scroll-top {
@@ -447,9 +1594,14 @@
                     Windows Server 2016 Quraşdırılmasının Başladılması
                 </div>
                 <p class="step-description">Windows Server 2016 quraşdırma diskini daxil edin və ya ISO faylından boot edin. Setup ekranı göründükdə quraşdırmaya başlayın.</p>
-                <div class="animation-container">
+            <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/1.Animation.gif" alt="Windows Server quraşdırma prosesinin başlanğıcı">
                     <div class="animation-tooltip">Quraşdırma ekranı yüklənir və sistem hazırlıq vəziyyətindədir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
                 </div>
                 <div class="tip">
                     <i class="fas fa-lightbulb icon"></i> İpucu: Quraşdırmadan əvvəl serverinizin sistem tələblərini yoxlayın. Windows Server 2016 üçün minimum 1.4 GHz prosessor, 512 MB RAM və 32 GB disk sahəsi tələb olunur.
@@ -836,9 +1988,256 @@
         </div>
     </footer>
 
-    <div class="scroll-top" id="scrollTop">
-        <i class="fas fa-arrow-up"></i>
+    <div class="floating-panel" id="toolsPanel">
+        <div class="panel-header">
+            <i class="fas fa-tools"></i> Əlavə Alətlər
+            <button class="panel-toggle"><i class="fas fa-chevron-up"></i></button>
+        </div>
+        <div class="panel-content">
+            <div class="panel-section">
+                <h4><i class="fas fa-calculator"></i> Server Tələbləri Kalkulyatoru</h4>
+                <div class="calc-form">
+                    <div class="form-group">
+                        <label>İstifadəçi sayı:</label>
+                        <input type="number" id="userCount" min="1" max="10000" value="50">
+                    </div>
+                    <div class="form-group">
+                        <label>Kompüter sayı:</label>
+                        <input type="number" id="computerCount" min="1" max="10000" value="50">
+                    </div>
+                    <button id="calculateBtn" class="btn btn-primary">Hesabla</button>
+                </div>
+                <div id="calculationResult" class="calculation-result">
+                    <p>Server spesifikasiyaları burada göstəriləcək...</p>
+                </div>
+            </div>
+            
+            <div class="panel-section">
+                <h4><i class="fas fa-list-check"></i> Quraşdırma Yoxlama Siyahısı</h4>
+                <div class="checklist">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check1">
+                        <label for="check1">Server avadanlığını yoxla</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check2">
+                        <label for="check2">Şəbəkəni planlaşdır</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check3">
+                        <label for="check3">Windows Server quraşdır</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check4">
+                        <label for="check4">Statik IP təyin et</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check5">
+                        <label for="check5">Active Directory quraşdır</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check6">
+                        <label for="check6">Domen strukturunu planlaşdır</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel-section">
+                <h4><i class="fas fa-code"></i> PowerShell Skriptləri</h4>
+                <div class="code-snippet">
+                    <pre><code># AD istifadəçisini yaratmaq üçün PowerShell skripti
+New-ADUser -Name "Yeni İstifadəçi" -GivenName "Yeni" -Surname "İstifadəçi" `
+-SamAccountName "yistifadeci" -UserPrincipalName "yistifadeci@domain.local" `
+-Path "OU=İstifadəçilər,DC=domain,DC=local" -AccountPassword (ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force) `
+-Enabled $true</code></pre>
+                    <button class="btn btn-sm copy-btn" data-target="code-1"><i class="fas fa-copy"></i> Kopyala</button>
+                </div>
+                
+                <div class="code-snippet">
+                    <pre><code># Çoxlu istifadəçini CSV faylından import etmək
+Import-Csv -Path "C:\Users.csv" | ForEach-Object {
+    $securePassword = ConvertTo-SecureString $_.Password -AsPlainText -Force
+    New-ADUser -Name $_.Name -GivenName $_.FirstName -Surname $_.LastName `
+    -SamAccountName $_.SamAccountName -UserPrincipalName "$($_.SamAccountName)@domain.local" `
+    -Path $_.OUPath -AccountPassword $securePassword -Enabled $true
+}</code></pre>
+                    <button class="btn btn-sm copy-btn" data-target="code-2"><i class="fas fa-copy"></i> Kopyala</button>
+                </div>
+            </div>
+        </div>
     </div>
+
+        <div class="interactive-demo fade-in">
+            <h2 class="demo-title"><i class="fas fa-project-diagram"></i> Active Directory Strukturu İnteraktiv Diaqramı</h2>
+            <p>Aşağıdakı interaktiv diaqramda tipik bir Active Directory domen strukturu göstərilmişdir. Elementlərin üzərinə klikləyərək əlavə məlumat əldə edə bilərsiniz.</p>
+            
+            <div class="server-diagram" id="adDiagram">
+                <div class="diagram-node" data-node="dc" onclick="activateNode('dc')">
+                    <div class="diagram-icon"><i class="fas fa-server"></i></div>
+                    <div class="diagram-label">Domen Kontrolleri</div>
+                </div>
+                <div class="diagram-node" data-node="users" onclick="activateNode('users')">
+                    <div class="diagram-icon"><i class="fas fa-users"></i></div>
+                    <div class="diagram-label">İstifadəçilər</div>
+                </div>
+                <div class="diagram-node" data-node="computers" onclick="activateNode('computers')">
+                    <div class="diagram-icon"><i class="fas fa-desktop"></i></div>
+                    <div class="diagram-label">Kompüterlər</div>
+                </div>
+                <div class="diagram-node" data-node="groups" onclick="activateNode('groups')">
+                    <div class="diagram-icon"><i class="fas fa-user-friends"></i></div>
+                    <div class="diagram-label">Qruplar</div>
+                </div>
+                <div class="diagram-node" data-node="gpo" onclick="activateNode('gpo')">
+                    <div class="diagram-icon"><i class="fas fa-cogs"></i></div>
+                    <div class="diagram-label">Qrup Siyasətləri</div>
+                </div>
+                <div class="diagram-node" data-node="ou" onclick="activateNode('ou')">
+                    <div class="diagram-icon"><i class="fas fa-folder"></i></div>
+                    <div class="diagram-label">Təşkilati Vahidlər</div>
+                </div>
+            </div>
+            
+            <div id="nodeInfo" class="node-info">
+                <h3 id="nodeTitle">Elementə klikləyin</h3>
+                <p id="nodeDescription">Diaqramda bir elementə klikləyərək Active Directory strukturu haqda məlumat əldə edin.</p>
+            </div>
+        </div>
+
+        <div class="section fade-in">
+            <h2><i class="fas fa-lightbulb"></i> Active Directory Funksiyaları - İnteraktiv Bilgi Kartları</h2>
+            <p>Məlumat kartlarını fırladaraq (üzərində mouse ilə gəzdirərək) Active Directory-nin əsas funksiyaları haqqında daha çox bilgi əldə edin.</p>
+            
+            <div class="cards-container">
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="flip-front">
+                            <i class="fas fa-user-shield fa-3x"></i>
+                            <h3>Mərkəzi Autentifikasiya</h3>
+                        </div>
+                        <div class="flip-back">
+                            <h3>Single Sign-On</h3>
+                            <p>İstifadəçilər şəbəkəyə bir dəfə daxil olmaqla bütün icazə verilmiş resurslara çata bilərlər. Bu, təhlükəsizliyi artırır və parolu idarə etməni asanlaşdırır.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="flip-front">
+                            <i class="fas fa-shield-alt fa-3x"></i>
+                            <h3>Təhlükəsizlik Siyasətləri</h3>
+                        </div>
+                        <div class="flip-back">
+                            <h3>Group Policy Obyektləri</h3>
+                            <p>Mərkəzləşdirilmiş təhlükəsizlik siyasətləri ilə bütün hesablar və cihazlar üzərində avtomatik nəzarət. Parol mürəkkəbliyi, hesab kilidləmə və digər təhlükəsizlik parametrləri.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flip-container">
+                    <div class="flipper">
+                        <div class="flip-front">
+                            <i class="fas fa-sitemap fa-3x"></i>
+                            <h3>Hierarxik Struktur</h3>
+                        </div>
+                        <div class="flip-back">
+                            <h3>Təşkilati Vahidlər (OUs)</h3>
+                            <p>Obyektlərin məntiqi qruplaşdırılması şirkətin strukturunu əks etdirərək idarəetməni asanlaşdırır. Departamentlər, lokasiyalar və ya funksiyalara görə qruplaşdırma.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section fade-in">
+            <h2><i class="fas fa-chart-network"></i> Active Directory Ssenariləri Simulyatoru</h2>
+            <p>Bu interaktiv simulyator vasitəsilə müxtəlif Active Directory ssenarilərini virtual mühitdə sınaqdan keçirə bilərsiniz.</p>
+            
+            <div class="simulator-container">
+                <div class="simulator-header">
+                    <div class="scenario-selector">
+                        <label for="scenarioSelect">Ssenarini seçin:</label>
+                        <select id="scenarioSelect" class="form-control">
+                            <option value="user-creation">İstifadəçi Yaratma</option>
+                            <option value="group-policy">Group Policy Tətbiqi</option>
+                            <option value="ou-structure">OU Strukturu Planlaşdırma</option>
+                            <option value="replication">Replikasiya Konfiqurasiyası</option>
+                        </select>
+                    </div>
+                    <button id="startSimulation" class="btn btn-primary">Simulyasiyanı Başlat</button>
+                </div>
+                
+                <div class="simulator-workspace">
+                    <div class="workspace-sidebar">
+                        <div class="tool-palette">
+                            <div class="tool-item" draggable="true" data-tool="user">
+                                <i class="fas fa-user"></i> İstifadəçi
+                            </div>
+                            <div class="tool-item" draggable="true" data-tool="group">
+                                <i class="fas fa-users"></i> Qrup
+                            </div>
+                            <div class="tool-item" draggable="true" data-tool="computer">
+                                <i class="fas fa-desktop"></i> Kompüter
+                            </div>
+                            <div class="tool-item" draggable="true" data-tool="ou">
+                                <i class="fas fa-folder"></i> OU
+                            </div>
+                            <div class="tool-item" draggable="true" data-tool="gpo">
+                                <i class="fas fa-cogs"></i> GPO
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="workspace-canvas" id="simulatorCanvas">
+                        <div class="canvas-placeholder">
+                            <i class="fas fa-arrow-left"></i>
+                            <p>Ssenarini seçin və simulyasiyanı başladın, daha sonra sol tərəfdəki elementləri bu sahəyə sürükləyin.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="workspace-properties">
+                        <h4>Xüsusiyyətlər</h4>
+                        <div class="property-placeholder">
+                            <p>Element seçilməyib</p>
+                        </div>
+                        <div class="property-panel" style="display: none;">
+                            <div class="form-group">
+                                <label>Ad:</label>
+                                <input type="text" id="propName" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Təsvir:</label>
+                                <input type="text" id="propDescription" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Yol:</label>
+                                <input type="text" id="propPath" class="form-control" readonly>
+                            </div>
+                            <button id="applyProperties" class="btn btn-sm btn-primary">Tətbiq Et</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="simulator-logs">
+                    <div class="logs-header">
+                        <h4>Əməliyyat Jurnalı</h4>
+                        <button class="btn btn-sm" id="clearLogs">Təmizlə</button>
+                    </div>
+                    <div class="logs-content" id="simulationLogs">
+                        <p class="log-entry"><span class="log-time">13:45:22</span> <span class="log-type info">INFO</span> Simulyasiya başlamağa hazırdır.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dark-mode-toggle" id="darkModeToggle">
+            <i class="fas fa-moon"></i>
+        </div>
+
+        <div class="scroll-top" id="scrollTop">
+            <i class="fas fa-arrow-up"></i>
+        </div>
 
     <script>
         // Progress bar functionality
