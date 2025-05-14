@@ -186,15 +186,12 @@
             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
             margin: 20px 0;
             background: #f9f9f9;
-            text-align: center; /* Center the images */
         }
         
         .animation-container img {
-            width: auto; /* Changed from 100% to auto */
-            max-width: 100%; /* Added max-width to ensure it doesn't overflow */
+            width: 100%;
             height: auto;
-            max-height: 400px; /* Added max-height constraint */
-            display: inline-block; /* Changed from block to inline-block for centering */
+            display: block;
             transition: transform 0.3s ease;
         }
         
@@ -379,7 +376,6 @@
             .section-number { width: 40px; height: 40px; font-size: 1.2rem; }
             .section { padding: 20px; }
             .intro { font-size: 1.1rem; }
-            .animation-container img { max-height: 300px; } /* Smaller images on mobile */
         }
 
         /* Animation for elements */
@@ -391,19 +387,6 @@
         .fade-in {
             animation: fadeIn 0.8s ease forwards;
             opacity: 0;
-        }
-        
-        /* Added: Placeholder for missing GIFs */
-        .gif-placeholder {
-            width: 100%;
-            height: 300px;
-            background-color: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            color: #666;
-            border-radius: var(--radius);
         }
     </style>
 </head>
@@ -465,7 +448,7 @@
                 </div>
                 <p class="step-description">Windows Server 2016 quraşdırma diskini daxil edin və ya ISO faylından boot edin. Setup ekranı göründükdə quraşdırmaya başlayın.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="Windows Server quraşdırma prosesinin başlanğıcı">
+                    <img src="Windows Server and AD installation/Gif/1.Animation.gif" alt="Windows Server quraşdırma prosesinin başlanğıcı">
                     <div class="animation-tooltip">Quraşdırma ekranı yüklənir və sistem hazırlıq vəziyyətindədir</div>
                 </div>
                 <div class="tip">
@@ -480,7 +463,7 @@
                 </div>
                 <p class="step-description">Quraşdırma dilini, vaxt və valyuta formatını, klaviatura düzümünü seçin. Bu addımda serverinizin lokallaşdırma parametrlərini təyin edirsiniz.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="Dil və bölgə seçimləri">
+                    <img src="Windows Server and AD installation/Gif/2.language.gif" alt="Dil və bölgə seçimləri">
                     <div class="animation-tooltip">Dil və region parametrləri seçilir</div>
                 </div>
                 <div class="tip">
@@ -495,7 +478,7 @@
                 </div>
                 <p class="step-description">Windows Server-i yeniləmək və ya xüsusi quraşdırma arasında seçim edin. Yeni quraşdırma üçün "Custom: Install Windows only (advanced)" seçin.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="Custom quraşdırma seçilir">
+                    <img src="Windows Server and AD installation/Gif/3.custom.gif" alt="Custom quraşdırma seçilir">
                     <div class="animation-tooltip">Xüsusi quraşdırma növü seçilir</div>
                 </div>
                 <div class="warning">
@@ -510,7 +493,7 @@
                 </div>
                 <p class="step-description">Windows Server 2016-nın quraşdırmaq istədiyiniz versiyasını seçin. "Desktop Experience" istifadəçi interfeysi ilə tam versiyanı təklif edir, "Core" isə yalnız əmr sətri interfeysini ehtiva edir.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="Desktop Experience versiya seçimi">
+                    <img src="Windows Server and AD installation/Gif/4.Desktop Experience.gif" alt="Desktop Experience versiya seçimi">
                     <div class="animation-tooltip">Desktop Experience ilə Windows Server versiyası seçilir</div>
                 </div>
                 <div class="tip">
@@ -525,7 +508,7 @@
                 </div>
                 <p class="step-description">Windows Server 2016-nın quraşdırılması prosesi başlayır. Bu mərhələdə sistem faylları köçürülür, genişləndirilir və xüsusiyyətlər quraşdırılır.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="Quraşdırma prosesi">
+                    <img src="Windows Server and AD installation/Gif/5.installing.gif" alt="Quraşdırma prosesi">
                     <div class="animation-tooltip">Windows Server faylları və komponentləri quraşdırılır</div>
                 </div>
                 <div class="tip">
@@ -540,7 +523,7 @@
                 </div>
                 <p class="step-description">Quraşdırma tamamlandıqdan sonra sistem avtomatik olaraq yenidən başladılır. Bu, ilkin quraşdırmaların tətbiq edilməsi üçün vacibdir.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="Sistemin yenidən başladılması">
+                    <img src="Windows Server and AD installation/Gif/6.restartred.gif" alt="Sistemin yenidən başladılması">
                     <div class="animation-tooltip">Windows Server quraşdırma tamamlandıqdan sonra yenidən başladılır</div>
                 </div>
             </div>
@@ -552,7 +535,7 @@
                 </div>
                 <p class="step-description">İlk giriş zamanı Administrator hesabı üçün güclü bir parol təyin edin. Bu, serverinizin təhlükəsizliyi üçün kritik əhəmiyyət daşıyır.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="Administrator parolu təyin edilir">
+                    <img src="Windows Server and AD installation/Gif/7.Administator Password.gif" alt="Administrator parolu təyin edilir">
                     <div class="animation-tooltip">Administrator hesabı üçün güclü parol təyin edilir</div>
                 </div>
                 <div class="warning">
@@ -567,7 +550,7 @@
                 </div>
                 <p class="step-description">Administrator hesabınız və yeni təyin etdiyiniz parol ilə sistemə daxil olun. İlk dəfə giriş edərkən Windows Server istifadəçi profili yaradılır.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="İlk giriş">
+                    <img src="Windows Server and AD installation/Gif/8.login.gif" alt="İlk giriş">
                     <div class="animation-tooltip">Administrator hesabı ilə ilk giriş</div>
                 </div>
                 <div class="tip">
@@ -582,7 +565,7 @@
                 </div>
                 <p class="step-description">Windows Server 2016 artıq tam quraşdırılmışdır. Server Manager avtomatik olaraq açılır və sizə serverinizi idarə etmək üçün əsas interfeys təqdim edir.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="Quraşdırma tamamlandı">
+                    <img src="Windows Server and AD installation/Gif/9.installed .gif" alt="Quraşdırma tamamlandı">
                     <div class="animation-tooltip">Windows Server quraşdırılması tamamlanıb və Server Manager açılıb</div>
                 </div>
                 <div class="success">
@@ -603,7 +586,7 @@
                 </div>
                 <p class="step-description">Serverə daha mənalı və tanınan bir ad verin. Bu, şəbəkədə serverin identifikasiyası üçün vacibdir və Active Directory quraşdırmadan əvvəl edilməlidir.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="Host adının dəyişdirilməsi">
+                    <img src="Windows Server and AD installation/Gif/10.changehostname.gif" alt="Host adının dəyişdirilməsi">
                     <div class="animation-tooltip">Kompüter adı "ADSERVER" olaraq dəyişdirilir</div>
                 </div>
                 <div class="tip">
@@ -618,7 +601,7 @@
                 </div>
                 <p class="step-description">Test və ya daxili mühitdə işləyərkən Windows Firewall-u söndürə bilərsiniz. Bu, quraşdırma zamanı yarana biləcək bağlantı problemlərini azaldır.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="Firewall-un söndürülməsi">
+                    <img src="Windows Server and AD installation/Gif/11.disablefirewall.gif" alt="Firewall-un söndürülməsi">
                     <div class="animation-tooltip">Windows Firewall bütün şəbəkə profilləri üçün söndürülür</div>
                 </div>
                 <div class="warning">
@@ -633,7 +616,7 @@
                 </div>
                 <p class="step-description">Remote Desktop Protocol (RDP) funksiyasını aktivləşdirərək, serverə uzaqdan idarəetmə imkanı əldə edin. Bu, fiziki olaraq serverin yanında olmadan onun idarə edilməsini təmin edir.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="RDP aktivləşdirilir">
+                    <img src="Windows Server and AD installation/Gif/12.enablerdp.gif" alt="RDP aktivləşdirilir">
                     <div class="animation-tooltip">Remote Desktop Connection xidməti aktivləşdirilir</div>
                 </div>
                 <div class="tip">
@@ -648,7 +631,7 @@
                 </div>
                 <p class="step-description">Active Directory quraşdırmadan əvvəl mövcud şəbəkə parametrlərinə baxmaq və şəbəkə adapterlərinin düzgün quraşdırıldığını yoxlamaq vacibdir.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="IP ünvanına baxış">
+                    <img src="Windows Server and AD installation/Gif/13.showip.gif" alt="IP ünvanına baxış">
                     <div class="animation-tooltip">ipconfig əmri ilə mövcud şəbəkə məlumatlarını göstərir</div>
                 </div>
                 <div class="tip">
@@ -663,7 +646,7 @@
                 </div>
                 <p class="step-description">Domen kontrolleri üçün statik IP ünvanı təyin etmək çox vacibdir. DHCP-dən alınan dinamik ünvanlar domen xidmətlərinin fəaliyyətində problemlər yarada bilər.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="Statik IP təyin edilir">
+                    <img src="Windows Server and AD installation/Gif/14.statik_ip.gif" alt="Statik IP təyin edilir">
                     <div class="animation-tooltip">Şəbəkə adapterin xüsusiyyətlərində statik IP konfiqurasiyası edilir</div>
                 </div>
                 <div class="warning">
@@ -678,7 +661,7 @@
                 </div>
                 <p class="step-description">Active Directory-nin düzgün işləməsi üçün vaxt qurşağını düzgün konfiqurasiya etmək vacibdir. Kerberos autentifikasiyası zamanı dəqiq vaxt tələb olunur.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="Vaxt qurşağının dəyişdirilməsi">
+                    <img src="Windows Server and AD installation/Gif/15.change_timezone.gif" alt="Vaxt qurşağının dəyişdirilməsi">
                     <div class="animation-tooltip">Sistem vaxt qurşağı düzgün bölgə ilə sinxronlaşdırılır</div>
                 </div>
                 <div class="tip">
@@ -693,10 +676,214 @@
                 </div>
                 <p class="step-description">Edilən dəyişikliklərin tam tətbiq olunması üçün serveri yenidən başladın. Bu, xüsusilə host adı dəyişikliyi üçün vacibdir.</p>
                 <div class="animation-container">
-                    <img src="/api/placeholder/640/360" alt="Dəyişikliklər üçün restart">
+                    <img src="Windows Server and AD installation/Gif/16.restart_for_apply.gif" alt="Dəyişikliklər üçün restart">
                     <div class="animation-tooltip">Server yenidən başladılır ki dəyişikliklər tam tətbiq olunsun</div>
                 </div>
                 <div class="tip">
                     <i class="fas fa-lightbulb icon"></i> İpucu: Server yenidən başladılmadan əvvəl bütün vacib əməliyyatları saxladığınızdan və ya bitirdiyinizdən əmin olun. Planlaşdırılmamış yenidən başlatmalar data itkisinə səbəb ola bilər.
                 </div>
             </div>
+        </div>
+
+        <div class="section fade-in">
+            <div class="section-number">3</div>
+            <h2><i class="fas fa-sitemap"></i> Active Directory Domain Services (AD DS) Quraşdırılması</h2>
+            <p>Bu bölmədə Windows Server 2016-da Active Directory Domain Services rolunu quraşdıracağıq. Bu, mərkəzləşdirilmiş şəbəkə idarəetməsinin əsasını təşkil edən kritik bir addımdır.</p>
+
+            <div class="tip">
+                <i class="fas fa-lightbulb icon"></i> AD DS nədir? Active Directory Domain Services, şəbəkədə istifadəçi hesabları, kompüterlər, printerlar və digər resursların idarə edilməsi üçün mərkəzləşdirilmiş bir xidmətdir. Bu, təhlükəsizlik, resurs paylaşımı və şəbəkə idarəetməsi üçün əsas komponentdir.
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    Server Rolları və Xüsusiyyətlərinin Əlavə Edilməsi
+                </div>
+                <p class="step-description">Server Manager-dən "Add Roles and Features" sehrbazını başladaraq, yeni rol və xüsusiyyətlər əlavə edin. Bu, AD DS rolunu əlavə etmək üçün ilk addımdır.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/17.add_roles+features.gif" alt="Rollar və xüsusiyyətlər əlavə edilir">
+                    <div class="animation-tooltip">Server Manager-dən "Add Roles and Features" sehrbazı başladılır</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Server rolu əlavə etmədən əvvəl, serverinizin bütün yeniləmələrinin quraşdırıldığından və sistem stabilliyinin yoxlanıldığından əmin olun.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">2</span>
+                    Active Directory Domain Services Rolunun Seçilməsi
+                </div>
+                <p class="step-description">Server Roles bölməsində "Active Directory Domain Services" rolunu seçin. Bunu seçdikdə, tələb olunan əlavə xüsusiyyətlər avtomatik olaraq əlavə ediləcək.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/18.Ad_select_installation.gif" alt="AD DS rolu seçilir">
+                    <div class="animation-tooltip">Server Roles siyahısından Active Directory Domain Services seçilir</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Active Directory ilə birlikdə DNS Server rolu da quraşdırılmalıdır. Əgər avtomatik əlavə edilmirsə, əl ilə DNS Server rolunu da seçin.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">3</span>
+                    Domen Adının Təyin Edilməsi
+                </div>
+                <p class="step-description">Yeni domen adını təyin edin. Bu, şəbəkənizdəki bütün resurslar üçün ad məkanı (namespace) yaradacaq. Adətən domain.local və ya company.com formatları istifadə olunur.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/19.write_domain.gif" alt="Domen adı yazılır">
+                    <div class="animation-tooltip">Yeni domen adı kimi "domain.local" daxil edilir</div>
+                </div>
+                <div class="warning">
+                    <i class="fas fa-exclamation-triangle icon"></i> Diqqət: Domen adını diqqətlə seçin, çünki bu, qurulduqdan sonra dəyişdirilməsi çətin olan bir parametrdir. İnternet ilə əlaqəli domenlər üçün rəsmi domen adları (.com, .org, vb.) istifadə edin, daxili şəbəkələr üçün isə .local kimi qeyri-rəsmi domain adları istifadə etmək olar.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">4</span>
+                    Directory Services Bərpa Parolunun Təyin Edilməsi
+                </div>
+                <p class="step-description">Active Directory-nin təcili bərpası üçün istifadə olunacaq parol təyin edin. Bu, domenin sağlamlığını qorumaq üçün kritik əhəmiyyət daşıyan bir təhlükəsizlik tədbiridir.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/20.write_password.gif" alt="Directory Services üçün parol təyin edilir">
+                    <div class="animation-tooltip">DSRM (Directory Services Restore Mode) parolu təyin edilir</div>
+                </div>
+                <div class="warning">
+                    <i class="fas fa-exclamation-triangle icon"></i> Diqqət: DSRM parolunu unutmayın və təhlükəsiz bir yerdə saxlayın. Bu parol, Active Directory məlumat bazasının zədələnməsi və ya digər kritik problemlər zamanı bərpa üçün lazım olacaq.
+                </div>
+            </div>
+
+            <div class="success">
+                <i class="fas fa-check-circle icon"></i> Təbrik edirik! Active Directory Domain Services rolu uğurla quraşdırıldı və domen kontrolleri konfiqurasiyanı tamamladı. Artıq istifadəçilər, qruplar və kompüterlər yaratmağa və onları idarə etməyə başlaya bilərsiniz.
+            </div>
+        </div>
+
+        <div class="section fade-in">
+            <div class="section-number">4</div>
+            <h2><i class="fas fa-user-plus"></i> Active Directory İlə İşləmək</h2>
+            <p>Bu bölmədə, Active Directory-nin əsas idarəetmə tapşırıqlarını və gündəlik işləri yerinə yetirməyi öyrənəcəksiniz.</p>
+
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div>
+                    <h3>İstifadəçilər və Qruplar</h3>
+                    <p>Active Directory Users and Computers konsolu vasitəsilə istifadəçilər, qruplar və kompüter hesablarını idarə edin. Təşkilati birimlər (OU) yaradaraq resurslarınızı məntiqi şəkildə təşkil edə bilərsiniz.</p>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div>
+                    <h3>Qrup Siyasətləri</h3>
+                    <p>Group Policy Management konsolu ilə domen daxilindəki bütün kompüterlər və istifadəçilər üçün mərkəzləşdirilmiş qaydalar və siyasətlər tətbiq edin. Bu, şəbəkənizin təhlükəsizliyini və standartlaşdırılmasını təmin edir.</p>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-sync"></i>
+                </div>
+                <div>
+                    <h3>Replikasiya və Yerləşdirmə Strategiyası</h3>
+                    <p>Böyük təşkilatlar üçün çoxsaylı domen kontrollerləri arasında replikasiya planlaşdırması vacibdir. Sites and Services konsolu vasitəsilə replikasiya topolojiyasını idarə edin.</p>
+                </div>
+            </div>
+
+            <div class="tip">
+                <i class="fas fa-lightbulb icon"></i> İpucu: Active Directory strukturunuzu planlaşdırarkən təşkilatınızın həm indiki, həm də gələcək ehtiyaclarını nəzərə alın. Yaxşı planlaşdırılmış bir AD strukturu idarəetməni asanlaşdırır və gələcək genişlənməyə imkan verir.
+            </div>
+        </div>
+
+        <div class="cta-section fade-in">
+            <h2 class="cta-title"><i class="fas fa-graduation-cap"></i> Active Directory İdarəetməsində İrəli Addımlar</h2>
+            <p>Windows Server və Active Directory quraşdırılması yalnız başlanğıcdır. Daha dərin öyrənmə üçün aşağıdakı mövzuları araşdırın:</p>
+            <ul style="text-align: left; margin: 20px auto; max-width: 600px; list-style-type: none;">
+                <li><i class="fas fa-angle-right"></i> Group Policy obyektlərinin yaradılması və idarə edilməsi</li>
+                <li><i class="fas fa-angle-right"></i> FSMO (Flexible Single Master Operations) rollarının başa düşülməsi</li>
+                <li><i class="fas fa-angle-right"></i> Active Directory sağlamlığının monitorinqi və problemlərin həlli</li>
+                <li><i class="fas fa-angle-right"></i> Backup və Recovery strategiyaları</li>
+                <li><i class="fas fa-angle-right"></i> LDAP sorğuları və PowerShell ilə AD idarəetməsi</li>
+            </ul>
+        </div>
+
+        <div class="section fade-in">
+            <h2><i class="fas fa-check-circle"></i> Quraşdırma Tamamlandı - Sonrakı Addımlar</h2>
+            <p>Windows Server 2016 və Active Directory quraşdırması uğurla tamamlandı! İndi şəbəkənizin əsas infrastruktur komponenti hazırdır.</p>
+            
+            <div class="success">
+                <i class="fas fa-server icon"></i> <strong>Serveriniz artıq domen idarəetməsi üçün hazırdır!</strong> İstifadəçilər yarada, qruplar təyin edə, kompüter hesabları əlavə edə, qrup siyasətləri ilə təhlükəsizlik qaydaları tətbiq edə və Active Directory-nin bütün üstünlüklərindən istifadə edə bilərsiniz.
+            </div>
+            
+            <p>İnfrastrukturunuzu daha da inkişaf etdirmək üçün aşağıdakıları nəzərdən keçirin:</p>
+            <ul>
+                <li>File Server, Print Server, DHCP, vb. kimi əlavə server rollarının quraşdırılması</li>
+                <li>Active Directory Certificate Services (AD CS) ilə PKI infrastrukturunun qurulması</li>
+                <li>Exchange Server, SharePoint, və ya SQL Server kimi əlavə Microsoft xidmətlərinin inteqrasiyası</li>
+                <li>Azure Active Directory (AAD) ilə hibrid kimlik idarəetməsinin qurulması</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Windows Server 2016 və Active Directory Quraşdırma Təlimatı &copy; 2025</p>
+            <p>Hazırladı: IT Pro Team</p>
+        </div>
+    </footer>
+
+    <div class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Progress bar functionality
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressFill").style.width = scrolled + "%";
+            
+            // Scroll to top button visibility
+            if (winScroll > 300) {
+                document.getElementById('scrollTop').classList.add('visible');
+            } else {
+                document.getElementById('scrollTop').classList.remove('visible');
+            }
+        });
+        
+        // Scroll to top functionality
+        document.getElementById('scrollTop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Fade-in animation for sections
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
