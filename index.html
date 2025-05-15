@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Windows Server 2016 və Active Directory Quraşdırılması - İnteraktiv Təlimat</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css ">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
             --primary-color: #0078d7;
@@ -19,11 +19,13 @@
             --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
         }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -32,11 +34,13 @@
             padding: 0;
             margin: 0;
         }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
+        
         header {
             background: var(--dark-bg);
             color: white;
@@ -46,6 +50,7 @@
             position: relative;
             overflow: hidden;
         }
+        
         header::before {
             content: "";
             position: absolute;
@@ -57,16 +62,19 @@
             opacity: 0.2;
             z-index: 0;
         }
+        
         header .container {
             position: relative;
             z-index: 1;
         }
+        
         h1 {
             font-size: 2.8rem;
             margin-bottom: 10px;
             color: white;
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
+        
         h2 {
             font-size: 2.2rem;
             margin: 40px 0 20px;
@@ -75,23 +83,27 @@
             padding-bottom: 10px;
             display: inline-block;
         }
+        
         h3 {
             font-size: 1.5rem;
             margin: 25px 0 15px;
             color: var(--secondary-color);
         }
+        
         p {
             margin-bottom: 20px;
             font-size: 1.1rem;
         }
+        
         .intro {
             font-size: 1.2rem;
             margin: 30px 0;
             text-align: center;
-            max-width: 600px;
+            max-width: 800px;
             margin-left: auto;
             margin-right: auto;
         }
+        
         .section {
             background: white;
             margin: 40px 0;
@@ -102,10 +114,12 @@
             position: relative;
             overflow: hidden;
         }
+        
         .section:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
+        
         .section-number {
             position: absolute;
             top: -15px;
@@ -122,6 +136,7 @@
             font-weight: bold;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
+        
         .step {
             background: var(--light-bg);
             margin: 25px 0;
@@ -131,10 +146,12 @@
             transition: var(--transition);
             border-left: 4px solid var(--primary-color);
         }
+        
         .step:hover {
             transform: translateX(5px);
             border-left-color: var(--accent-color);
         }
+        
         .step-title {
             display: flex;
             align-items: center;
@@ -143,6 +160,7 @@
             font-size: 1.2rem;
             color: var(--primary-color);
         }
+        
         .step-number {
             background: var(--primary-color);
             color: white;
@@ -154,10 +172,12 @@
             justify-content: center;
             margin-right: 10px;
         }
+        
         .step-description {
             margin-bottom: 20px;
             font-size: 1.05rem;
         }
+        
         .animation-container {
             position: relative;
             overflow: hidden;
@@ -166,17 +186,19 @@
             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
             margin: 20px 0;
             background: #f9f9f9;
-            align-items: center;
         }
+        
         .animation-container img {
-            max-width: 100%; /* Ölçü dəyişikliyi burada */
-            height: 550px;     /* Ölçü dəyişikliyi burada */
-            display: auto;
+            width: 100%;
+            height: auto;
+            display: block;
             transition: transform 0.3s ease;
         }
+        
         .animation-container:hover img {
             transform: scale(1.02);
         }
+        
         .tip {
             background: rgba(255, 185, 0, 0.1);
             border-left: 4px solid var(--accent-color);
@@ -184,23 +206,27 @@
             margin: 20px 0;
             font-style: italic;
         }
+        
         .warning {
             background: rgba(243, 156, 18, 0.1);
             border-left: 4px solid var(--warning-color);
             padding: 15px;
             margin: 20px 0;
         }
+        
         .success {
             background: rgba(0, 184, 148, 0.1);
             border-left: 4px solid var(--success-color);
             padding: 15px;
             margin: 20px 0;
         }
+        
         .icon {
             margin-right: 8px;
             font-size: 1.2em;
             vertical-align: middle;
         }
+        
         footer {
             background: var(--dark-bg);
             color: white;
@@ -208,16 +234,18 @@
             padding: 30px 0;
             margin-top: 50px;
         }
+        
         .progress-tracker {
             position: sticky;
             top: 0;
             background: var(--dark-bg);
             color: white;
-            padding: 8px 0;
+            padding: 10px 0;
             z-index: 100;
             text-align: center;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+        
         .progress-bar {
             height: 10px;
             background: rgba(255, 255, 255, 0.2);
@@ -227,6 +255,7 @@
             max-width: 800px;
             position: relative;
         }
+        
         .progress-fill {
             height: 100%;
             background: var(--accent-color);
@@ -234,6 +263,7 @@
             width: 0%;
             transition: width 0.5s ease;
         }
+        
         .scroll-top {
             position: fixed;
             bottom: 30px;
@@ -253,9 +283,11 @@
             transition: var(--transition);
             z-index: 99;
         }
+        
         .scroll-top.visible {
             opacity: 1;
         }
+        
         .summary-card {
             background: white;
             padding: 20px;
@@ -265,17 +297,20 @@
             display: flex;
             align-items: center;
         }
+        
         .summary-icon {
             font-size: 2rem;
             color: var(--primary-color);
             margin-right: 20px;
         }
+        
         .benefits {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             margin: 30px 0;
         }
+        
         .benefit-card {
             flex: 1 1 300px;
             background: white;
@@ -285,15 +320,18 @@
             transition: var(--transition);
             border-top: 4px solid var(--primary-color);
         }
+        
         .benefit-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
+        
         .benefit-icon {
             font-size: 2.5rem;
             color: var(--primary-color);
             margin-bottom: 15px;
         }
+        
         .cta-section {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
@@ -302,14 +340,17 @@
             border-radius: var(--radius);
             margin: 50px 0;
         }
+        
         .cta-title {
             font-size: 2rem;
             margin-bottom: 20px;
         }
+        
         /* Hover tooltips for the animations */
         .animation-container {
             position: relative;
         }
+        
         .animation-tooltip {
             position: absolute;
             bottom: 0;
@@ -322,9 +363,11 @@
             transition: transform 0.3s ease;
             font-size: 0.9rem;
         }
+        
         .animation-container:hover .animation-tooltip {
             transform: translateY(0);
         }
+        
         /* Responsive adjustments */
         @media (max-width: 768px) {
             h1 { font-size: 2rem; }
@@ -334,11 +377,13 @@
             .section { padding: 20px; }
             .intro { font-size: 1.1rem; }
         }
+
         /* Animation for elements */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
         .fade-in {
             animation: fadeIn 0.8s ease forwards;
             opacity: 0;
@@ -354,16 +399,19 @@
             </div>
         </div>
     </div>
+
     <header>
         <div class="container">
             <h1><i class="fas fa-server"></i> Windows Server 2016 və Active Directory</h1>
             <h3>Quraşdırılması və İdarə edilməsi üzrə İnteraktiv Təlimat</h3>
         </div>
     </header>
+
     <div class="container">
         <p class="intro">
             <i class="fas fa-quote-left"></i> Bu təlim, Windows Server 2016 və Active Directory xidmətinin quraşdırılması, konfiqurasiyası və effektiv istifadəsi üçün addım-addım göstərişlər verir. Biz sizi sıfırdan başlayaraq tam funksional bir domen kontrollerinə qədər aparacağıq. <i class="fas fa-quote-right"></i>
         </p>
+
         <div class="benefits">
             <div class="benefit-card fade-in">
                 <div class="benefit-icon">
@@ -387,10 +435,12 @@
                 <p>Group Policy vasitəsilə yüzlərlə kompüteri eyni vaxtda idarə edin</p>
             </div>
         </div>
+
         <div class="section fade-in">
             <div class="section-number">1</div>
             <h2><i class="fas fa-rocket"></i> Windows Server 2016 Yüklənməsi və İlkin Quraşdırma</h2>
             <p>Windows Server 2016 əməliyyat sisteminin yüklənməsi və ilkin quraşdırılması prosesini addım-addım izləyəcəyik. Bu mərhələ, serverinizin əsasını təşkil edir.</p>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">1</span>
@@ -405,6 +455,7 @@
                     <i class="fas fa-lightbulb icon"></i> İpucu: Quraşdırmadan əvvəl serverinizin sistem tələblərini yoxlayın. Windows Server 2016 üçün minimum 1.4 GHz prosessor, 512 MB RAM və 32 GB disk sahəsi tələb olunur.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">2</span>
@@ -419,6 +470,7 @@
                     <i class="fas fa-lightbulb icon"></i> İpucu: Server administratorlarının əksəriyyəti, beynəlxalq standartlara uyğunluq üçün ingilis dilini seçir, lakin sizin mühitinizə uyğun dili seçə bilərsiniz.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">3</span>
@@ -433,6 +485,7 @@
                     <i class="fas fa-exclamation-triangle icon"></i> Diqqət: "Custom" seçimi mövcud verilənləri silə bilər. Əgər mövcud sistem üzərində quraşdırma aparırsınızsa, əvvəlcədən vacib məlumatlarınızı yedəkləyin.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">4</span>
@@ -447,6 +500,7 @@
                     <i class="fas fa-lightbulb icon"></i> İpucu: "Desktop Experience" yeni başlayanlar üçün daha rahat olsa da, "Core" versiyası daha az sistem resursu istifadə edir və təhlükəsizlik baxımından daha yaxşıdır.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">5</span>
@@ -461,6 +515,7 @@
                     <i class="fas fa-lightbulb icon"></i> İpucu: Quraşdırma prosesi server avadanlığınızın gücündən asılı olaraq 20-45 dəqiqə arası çəkə bilər. Bu müddət ərzində serverə müdaxilə etməyin.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">6</span>
@@ -472,6 +527,7 @@
                     <div class="animation-tooltip">Windows Server quraşdırma tamamlandıqdan sonra yenidən başladılır</div>
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">7</span>
@@ -486,6 +542,7 @@
                     <i class="fas fa-exclamation-triangle icon"></i> Diqqət: Mütləq mürəkkəb və təhlükəsiz bir parol seçin (ən az 8 simvol, böyük və kiçik hərflər, rəqəmlər və xüsusi simvollar daxil olmaqla). Bu parolu təhlükəsiz bir yerdə saxlayın, çünki onu itirdikdə serveri bərpa etmək çətin ola bilər.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">8</span>
@@ -500,6 +557,7 @@
                     <i class="fas fa-lightbulb icon"></i> İpucu: İlk giriş digər girişlərə nisbətən daha çox vaxt ala bilər, çünki Windows istifadəçi profili parametrlərini konfiqurasiya edir.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">9</span>
@@ -515,10 +573,12 @@
                 </div>
             </div>
         </div>
+
         <div class="section fade-in">
             <div class="section-number">2</div>
             <h2><i class="fas fa-cogs"></i> Əsas Konfiqurasiya Ayarları</h2>
             <p>Bu bölmədə Windows Server 2016-nın əsas konfiqurasiya parametrlərini tənzimləyəcəyik. Bu addımlar serverinizin şəbəkədə düzgün işləməsi üçün vacibdir.</p>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">1</span>
@@ -533,6 +593,7 @@
                     <i class="fas fa-lightbulb icon"></i> İpucu: Host adını təşkilatınızın adlandırma konvensiyasına uyğun seçin. Məsələn, "DC01" və ya "ADSERVER" kimi adlar domen kontrolleri üçün uyğundur. Adda boşluqlar və xüsusi simvollar istifadə etməkdən çəkinin.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">2</span>
@@ -547,6 +608,7 @@
                     <i class="fas fa-exclamation-triangle icon"></i> Diqqət: İstehsal mühitində firewall-u tamamilə söndürmək təhlükəsizlik riski yaradır. Əvəzinə, sadəcə lazım olan portları (Active Directory portları: 389, 445, 88, 53, 135, 3268, 3269, vb.) açın.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">3</span>
@@ -561,6 +623,7 @@
                     <i class="fas fa-lightbulb icon"></i> İpucu: Təhlükəsizliyi artırmaq üçün uzaqdan girişi yalnız administrator qrupuna məhdudlaşdırın və mümkünsə şəbəkə səviyyəsində əlavə təhlükəsizlik tədbirləri tətbiq edin.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">4</span>
@@ -575,6 +638,7 @@
                     <i class="fas fa-lightbulb icon"></i> İpucu: "ipconfig /all" əmri daha ətraflı məlumat əldə etməyə imkan verir. Bu əmrlə MAC ünvanı, DNS server ünvanları və digər şəbəkə konfiqurasiyalarını görə bilərsiniz.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">5</span>
@@ -589,6 +653,7 @@
                     <i class="fas fa-exclamation-triangle icon"></i> Diqqət: Statik IP ünvanını təyin edərkən şəbəkə administratoru ilə məsləhətləşin. Təkrarlanan IP ünvanları şəbəkə konfliktinə səbəb ola bilər. DNS server kimi eyni server IP ünvanını göstərin.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">6</span>
@@ -603,6 +668,7 @@
                     <i class="fas fa-lightbulb icon"></i> İpucu: Active Directory mühitlərində bütün komputerlərin vaxtı domen kontrolleri ilə avtomatik sinxronlaşdırılır. Domen kontrollerinin vaxtı isə bir xarici NTP serverlə sinxronlaşdırıla bilər.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">7</span>
@@ -618,13 +684,16 @@
                 </div>
             </div>
         </div>
+
         <div class="section fade-in">
             <div class="section-number">3</div>
             <h2><i class="fas fa-sitemap"></i> Active Directory Domain Services (AD DS) Quraşdırılması</h2>
             <p>Bu bölmədə Windows Server 2016-da Active Directory Domain Services rolunu quraşdıracağıq. Bu, mərkəzləşdirilmiş şəbəkə idarəetməsinin əsasını təşkil edən kritik bir addımdır.</p>
+
             <div class="tip">
                 <i class="fas fa-lightbulb icon"></i> AD DS nədir? Active Directory Domain Services, şəbəkədə istifadəçi hesabları, kompüterlər, printerlar və digər resursların idarə edilməsi üçün mərkəzləşdirilmiş bir xidmətdir. Bu, təhlükəsizlik, resurs paylaşımı və şəbəkə idarəetməsi üçün əsas komponentdir.
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">1</span>
@@ -639,6 +708,7 @@
                     <i class="fas fa-lightbulb icon"></i> İpucu: Server rolu əlavə etmədən əvvəl, serverinizin bütün yeniləmələrinin quraşdırıldığından və sistem stabilliyinin yoxlanıldığından əmin olun.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">2</span>
@@ -653,6 +723,7 @@
                     <i class="fas fa-lightbulb icon"></i> İpucu: Active Directory ilə birlikdə DNS Server rolu da quraşdırılmalıdır. Əgər avtomatik əlavə edilmirsə, əl ilə DNS Server rolunu da seçin.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">3</span>
@@ -667,6 +738,7 @@
                     <i class="fas fa-exclamation-triangle icon"></i> Diqqət: Domen adını diqqətlə seçin, çünki bu, qurulduqdan sonra dəyişdirilməsi çətin olan bir parametrdir. İnternet ilə əlaqəli domenlər üçün rəsmi domen adları (.com, .org, vb.) istifadə edin, daxili şəbəkələr üçün isə .local kimi qeyri-rəsmi domain adları istifadə etmək olar.
                 </div>
             </div>
+
             <div class="step">
                 <div class="step-title">
                     <span class="step-number">4</span>
@@ -676,19 +748,22 @@
                 <div class="animation-container">
                     <img src="Windows Server and AD installation/Gif/20.write_password.gif" alt="Directory Services üçün parol təyin edilir">
                     <div class="animation-tooltip">DSRM (Directory Services Restore Mode) parolu təyin edilir</div>
-                </div> 
+                </div>
                 <div class="warning">
                     <i class="fas fa-exclamation-triangle icon"></i> Diqqət: DSRM parolunu unutmayın və təhlükəsiz bir yerdə saxlayın. Bu parol, Active Directory məlumat bazasının zədələnməsi və ya digər kritik problemlər zamanı bərpa üçün lazım olacaq.
                 </div>
             </div>
+
             <div class="success">
                 <i class="fas fa-check-circle icon"></i> Təbrik edirik! Active Directory Domain Services rolu uğurla quraşdırıldı və domen kontrolleri konfiqurasiyanı tamamladı. Artıq istifadəçilər, qruplar və kompüterlər yaratmağa və onları idarə etməyə başlaya bilərsiniz.
             </div>
         </div>
+
         <div class="section fade-in">
             <div class="section-number">4</div>
             <h2><i class="fas fa-user-plus"></i> Active Directory İlə İşləmək</h2>
             <p>Bu bölmədə, Active Directory-nin əsas idarəetmə tapşırıqlarını və gündəlik işləri yerinə yetirməyi öyrənəcəksiniz.</p>
+
             <div class="summary-card">
                 <div class="summary-icon">
                     <i class="fas fa-users"></i>
@@ -698,6 +773,7 @@
                     <p>Active Directory Users and Computers konsolu vasitəsilə istifadəçilər, qruplar və kompüter hesablarını idarə edin. Təşkilati birimlər (OU) yaradaraq resurslarınızı məntiqi şəkildə təşkil edə bilərsiniz.</p>
                 </div>
             </div>
+
             <div class="summary-card">
                 <div class="summary-icon">
                     <i class="fas fa-shield-alt"></i>
@@ -707,6 +783,7 @@
                     <p>Group Policy Management konsolu ilə domen daxilindəki bütün kompüterlər və istifadəçilər üçün mərkəzləşdirilmiş qaydalar və siyasətlər tətbiq edin. Bu, şəbəkənizin təhlükəsizliyini və standartlaşdırılmasını təmin edir.</p>
                 </div>
             </div>
+
             <div class="summary-card">
                 <div class="summary-icon">
                     <i class="fas fa-sync"></i>
@@ -716,10 +793,12 @@
                     <p>Böyük təşkilatlar üçün çoxsaylı domen kontrollerləri arasında replikasiya planlaşdırması vacibdir. Sites and Services konsolu vasitəsilə replikasiya topolojiyasını idarə edin.</p>
                 </div>
             </div>
+
             <div class="tip">
                 <i class="fas fa-lightbulb icon"></i> İpucu: Active Directory strukturunuzu planlaşdırarkən təşkilatınızın həm indiki, həm də gələcək ehtiyaclarını nəzərə alın. Yaxşı planlaşdırılmış bir AD strukturu idarəetməni asanlaşdırır və gələcək genişlənməyə imkan verir.
             </div>
         </div>
+
         <div class="cta-section fade-in">
             <h2 class="cta-title"><i class="fas fa-graduation-cap"></i> Active Directory İdarəetməsində İrəli Addımlar</h2>
             <p>Windows Server və Active Directory quraşdırılması yalnız başlanğıcdır. Daha dərin öyrənmə üçün aşağıdakı mövzuları araşdırın:</p>
@@ -731,12 +810,15 @@
                 <li><i class="fas fa-angle-right"></i> LDAP sorğuları və PowerShell ilə AD idarəetməsi</li>
             </ul>
         </div>
+
         <div class="section fade-in">
             <h2><i class="fas fa-check-circle"></i> Quraşdırma Tamamlandı - Sonrakı Addımlar</h2>
             <p>Windows Server 2016 və Active Directory quraşdırması uğurla tamamlandı! İndi şəbəkənizin əsas infrastruktur komponenti hazırdır.</p>
+            
             <div class="success">
                 <i class="fas fa-server icon"></i> <strong>Serveriniz artıq domen idarəetməsi üçün hazırdır!</strong> İstifadəçilər yarada, qruplar təyin edə, kompüter hesabları əlavə edə, qrup siyasətləri ilə təhlükəsizlik qaydaları tətbiq edə və Active Directory-nin bütün üstünlüklərindən istifadə edə bilərsiniz.
             </div>
+            
             <p>İnfrastrukturunuzu daha da inkişaf etdirmək üçün aşağıdakıları nəzərdən keçirin:</p>
             <ul>
                 <li>File Server, Print Server, DHCP, vb. kimi əlavə server rollarının quraşdırılması</li>
@@ -746,15 +828,18 @@
             </ul>
         </div>
     </div>
+
     <footer>
         <div class="container">
             <p>Windows Server 2016 və Active Directory Quraşdırma Təlimatı &copy; 2025</p>
             <p>Hazırladı: IT Pro Team</p>
         </div>
     </footer>
+
     <div class="scroll-top" id="scrollTop">
         <i class="fas fa-arrow-up"></i>
     </div>
+
     <script>
         // Progress bar functionality
         window.addEventListener('scroll', function() {
@@ -762,6 +847,7 @@
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             document.getElementById("progressFill").style.width = scrolled + "%";
+            
             // Scroll to top button visibility
             if (winScroll > 300) {
                 document.getElementById('scrollTop').classList.add('visible');
@@ -769,6 +855,7 @@
                 document.getElementById('scrollTop').classList.remove('visible');
             }
         });
+        
         // Scroll to top functionality
         document.getElementById('scrollTop').addEventListener('click', function() {
             window.scrollTo({
@@ -776,9 +863,11 @@
                 behavior: 'smooth'
             });
         });
+        
         // Fade-in animation for sections
         document.addEventListener('DOMContentLoaded', function() {
             const fadeElements = document.querySelectorAll('.fade-in');
+            
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -790,6 +879,7 @@
             }, {
                 threshold: 0.1
             });
+            
             fadeElements.forEach(element => {
                 observer.observe(element);
             });
