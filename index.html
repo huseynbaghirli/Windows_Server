@@ -825,7 +825,107 @@
                     <i class="fas fa-exclamation-triangle icon"></i> Diqqət: İstifadəçi hesabları yaradarkən təhlükəsiz parol siyasətlərinə əməl edin və parolları təhlükəsiz şəkildə saxlayın. "Password never expires" seçimini yalnız çox xüsusi hallarda istifadə edin, çünki bu, potensial təhlükəsizlik riskləri yarada bilər.
                 </div>
             </div>
-            
+
+            <h2><i class="fas fa-network-wired"></i> Kompüterlərin Domainə Qoşulması</h2>
+            <p>Bu bölmədə Windows 10 və Windows 11 kompüterlərini yaratdığımız Active Directory domainə qoşma prosesini öyrənəcəyik. Qoşulma prosesi üçün DNS serverin düzgün quraşdırılması kritik əhəmiyyətə malikdir.</p>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    DNS Server Təyin Etmə
+                </div>
+                <p class="step-description">Active Directory DNS olmadan işləyə bilməz. Kompüterlərin domainə qoşulması üçün DNS server olaraq domen kontrollerini göstərməliyik. Əks halda qoşulma uğursuz olacaq.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/23.changednsserversratic.gif" alt="DNS Server dəyişdirilməsi">
+                    <div class="animation-tooltip">Kompüterin DNS server parametrləri Active Directory server IP ünvanı ilə dəyişdirilir</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
+                </div>
+                <div class="warning">
+                    <i class="fas fa-exclamation-triangle icon"></i> Diqqət: Əgər DNS server düzgün təyin edilməzsə, aşağıdakı kimi xəta mesajı ilə qarşılaşa bilərsiniz:
+                </div>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/dns-faile-error.png" alt="DNS xətası">
+                    <div class="animation-tooltip">DNS serverin tapılmaması xətası</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Domen kontrollerinin IP ünvanı, DNS server ünvanı olaraq təyin edilməlidir. Böyük şəbəkələrdə, ikinci DNS server olaraq başqa bir domen kontrolleri və ya etibarlı DNS server göstərmək məsləhətdir.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">2</span>
+                    Windows 10 Kompüterini Domainə Qoşmaq
+                </div>
+                <p class="step-description">Windows 10 əməliyyat sistemli kompüteri Active Directory domainə qoşmaq üçün Sistem Parametrlərindən "Bu cihazın adını dəyişdirin" bölməsini istifadə edin.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/domainjoinwindows10.gif" alt="Windows 10 Domainə Qoşulma">
+                    <div class="animation-tooltip">Windows 10 kompüteri Active Directory domainə qoşulur</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Domainə qoşulma zamanı tələb olunan administrator parolu, domain administratorunun paroludur. Bu, <a href="#dsrm-password">DSRM parolu</a> ilə qarışdırılmamalıdır. DSRM parolu yalnız təcili bərpa rejimi üçün istifadə olunur, domainə gündəlik giriş və qoşulma əməliyyatları üçün deyil.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">3</span>
+                    Windows 11 Kompüterini Domainə Qoşmaq
+                </div>
+                <p class="step-description">Windows 11 əməliyyat sistemli kompüteri Active Directory domainə qoşmaq prosesi, Windows 10-a bənzəyir, lakin interfeys fərqlidir.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/joinwindows11.gif" alt="Windows 11 Domainə Qoşulma">
+                    <div class="animation-tooltip">Windows 11 kompüteri Active Directory domainə qoşulur</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
+                </div>
+                <div class="warning">
+                    <i class="fas fa-exclamation-triangle icon"></i> Diqqət: Domainə qoşulduqdan sonra kompüteri yenidən başlatmaq tələb olunur. Bütün vacib fayllarınızı saxladığınızdan əmin olun.
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-title">
+                    <span class="step-number">4</span>
+                    Domain İstifadəçisi ilə Sistemə Giriş
+                </div>
+                <p class="step-description">Kompüter domainə qoşulduqdan sonra, domain istifadəçi hesabı ilə sistemə daxil ola bilərsiniz. Bunun üçün giriş ekranında domain istifadəçi adını və parolunu daxil edin.</p>
+                <div class="animation-container">
+                    <img src="Windows Server and AD installation/Gif/logindomainuser.gif" alt="Domain İstifadəçisi ilə Giriş">
+                    <div class="animation-tooltip">Domain istifadəçi hesabı ilə Windows-a giriş</div>
+                    <div class="animation-controls">
+                        <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                        <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                    </div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb icon"></i> İpucu: Domain istifadəçi adını daxil edərkən, iki format istifadə edə bilərsiniz:
+                    <ul>
+                        <li><strong>DOMAIN\istifadəçi</strong> - məsələn: DOMAIN\john.doe</li>
+                        <li><strong>istifadəçi@domain.com</strong> - məsələn: john.doe@domain.com</li>
+                    </ul>
+                </div>
+            </div>
+
+
             <div class="summary-card">
                 <div class="summary-icon">
                     <i class="fas fa-shield-alt"></i>
