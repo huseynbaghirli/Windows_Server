@@ -759,6 +759,56 @@
                 <i class="fas fa-check-circle icon"></i> Təbrik edirik! Active Directory Domain Services rolu uğurla quraşdırıldı və domen kontrolleri konfiqurasiyanı tamamladı. Artıq istifadəçilər, qruplar və kompüterlər yaratmağa və onları idarə etməyə başlaya bilərsiniz.
             </div>
         </div>
+        
+        <div class="step">
+            <div class="step-title">
+                <span class="step-number">5</span>
+                Təşkilati Vahidlərin (OU) Yaradılması
+            </div>
+            <p class="step-description">Təşkilati Vahidlər (Organizational Units - OU) istifadəçiləri, qrupları və kompüterləri məntiqi struktur daxilində təşkil etməyə kömək edir. OU-lar şirkət strukturunuzu əks etdirə bilər - məsələn, departamentlər, ofislər və s.</p>
+            <div class="animation-container">
+                <img src="Windows Server and AD installation/Gif/21.create_organization_unit.gif" alt="Təşkilati Vahidlərin yaradılması">
+                <div class="animation-tooltip">Active Directory Users and Computers konsolunda yeni Təşkilati Vahid yaradılır</div>
+                <div class="animation-controls">
+                    <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                    <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                    <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                </div>
+            </div>
+            <div class="tip">
+                <i class="fas fa-lightbulb icon"></i> İpucu: OU-ları elə planlaşdırın ki, qrup siyasətləri (Group Policy) tətbiq etmək daha asan olsun. Məsələn, eyni təhlükəsizlik tələblərinə malik istifadəçilər və ya kompüterlər eyni OU daxilində qruplaşdırıla bilər.
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">
+                <span class="step-number">6</span>
+                İstifadəçi Hesablarının Yaradılması
+            </div>
+            <p class="step-description">Active Directory istifadəçi hesablarını yaratmaq, həmin istifadəçilərə domendəki resurslara giriş imkanı verir. Bu prosesdə istifadəçi adı, tam adı, parol və digər hesab parametrləri təyin edilir.</p>
+            <div class="animation-container">
+                <img src="Windows Server and AD installation/Gif/22.create_users.gif" alt="İstifadəçi hesablarının yaradılması">
+                <div class="animation-tooltip">Active Directory-də yeni istifadəçi hesabının yaradılması prosesi</div>
+                <div class="animation-controls">
+                    <button class="zoom-btn zoom-in"><i class="fas fa-search-plus"></i></button>
+                    <button class="zoom-btn zoom-out"><i class="fas fa-search-minus"></i></button>
+                    <button class="zoom-btn zoom-reset"><i class="fas fa-sync"></i></button>
+                </div>
+            </div>
+            <div class="tip">
+                <i class="fas fa-lightbulb icon"></i> İpucu: İstifadəçi hesabları yaradarkən parol seçimləri çox önəmlidir:
+                <ul>
+                    <li><strong>User must change password at next logon</strong> - İstifadəçi növbəti girişdə parolu dəyişməlidir. Yeni hesablar üçün təhlükəsizlik baxımından tövsiyə olunur.</li>
+                    <li><strong>User cannot change password</strong> - İstifadəçi öz parolunu dəyişə bilməz. Xüsusi xidmət hesabları üçün istifadə olunur.</li>
+                    <li><strong>Password never expires</strong> - Parol heç vaxt vaxtı keçmiş sayılmır, sistem tərəfindən dəyişdirilməsi tələb olunmur. Təhlükəsizlik baxımından tövsiyə olunmur.</li>
+                    <li><strong>Account is disabled</strong> - Hesab yaradılır amma deaktiv vəziyyətdə olur. Gələcəkdə istifadə olunacaq hesablar üçün faydalıdır.</li>
+                </ul>
+            </div>
+            <div class="warning">
+                <i class="fas fa-exclamation-triangle icon"></i> Diqqət: İstifadəçi hesabları yaradarkən təhlükəsiz parol siyasətlərinə əməl edin və parolları təhlükəsiz şəkildə saxlayın. "Password never expires" seçimini yalnız çox xüsusi hallarda istifadə edin, çünki bu, potensial təhlükəsizlik riskləri yarada bilər.
+            </div>
+        </div>
+    
 
         <div class="section fade-in">
             <div class="section-number">4</div>
